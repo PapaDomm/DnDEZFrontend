@@ -1,0 +1,17 @@
+@if(!display){
+    <button (click)="toggleDisplay()">X</button>
+}
+
+@else {
+    <div>
+        <nav>
+            <ul>
+                <li><button (click)="toggleDisplay()">X</button></li>
+                <li><button>Home</button></li>
+                <li><button>Profile</button></li>
+                <li><button>Character Creator</button></li>
+                <li><button>Rules?</button></li>
+            </ul>
+        </nav>
+    </div> 
+}

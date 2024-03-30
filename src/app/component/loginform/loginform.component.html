@@ -1,0 +1,11 @@
+@if(!display){
+    <button (click)="toggleDisplay()">Login</button>
+}
+
+@else {
+    <button (click)="toggleDisplay()">Close</button>
+    <input type="text" class="form-control" [(ngModel)]="username">
+    <input type="password" class="form-control" [(ngModel)]="password">
+    <button (click)="login()">Login</button>
+    <button>Register User</button>
+}

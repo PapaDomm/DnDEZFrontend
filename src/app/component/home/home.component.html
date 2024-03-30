@@ -1,0 +1,12 @@
+@for (race of allRaces; track $index) 
+{ 
+    <div class="card" style="width: 10rem;">
+        <img class="img-card-top" [src]="createImgPath(race)" >
+        <div class="card-body">
+            <div class="card-title">{{race.name}}</div>
+        </div>
+    </div>
+
+}
+
+<button>Start Fresh</button>
