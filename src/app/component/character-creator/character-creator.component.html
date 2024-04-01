@@ -63,8 +63,14 @@
         }
     </div>
     
+
+    <div class="row">
+        <input type="file" (change)="onFileChanged($event)">
+    </div>
     
-    
+    @if(imgUrl != undefined){
+        <img [src]="imgUrl" style="border-radius: 100%; width: 10rem; height: 10rem;">
+    }
     
     <button (click)="addCharacter()">Add</button>
     

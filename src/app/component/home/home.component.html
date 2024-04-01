@@ -3,10 +3,10 @@
     <div class="card" style="width: 10rem;">
         <img class="img-card-top" [src]="createImgPath(race)" >
         <div class="card-body">
-            <div class="card-title">{{race.name}}</div>
+            <div class="card-title"><a routerLink="/CharacterCreator/{{race.index}}">{{race.name}}</a></div>
         </div>
     </div>
 
 }
 
-<button>Start Fresh</button>
+<a routerLink="/CharacterCreator"><button>Start Fresh</button></a> 

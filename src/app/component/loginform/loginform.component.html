@@ -1,5 +1,12 @@
 @if(!display){
-    <button (click)="toggleDisplay()">Login</button>
+    @if(!isLoggedIn()){
+        <button (click)="toggleDisplay()">Login</button>
+    }
+    @else {
+        <img [src]="createImgPath(activeUser().image.imagePath)" style="width: 10rem; height: 10rem; border-radius: 100%;"><p>{{activeUser().userName}}</p>
+        <button (click)="logout()">Logout</button>
+    }
+    
 }
 
 @else {
@@ -7,5 +14,5 @@
     <input type="text" class="form-control" [(ngModel)]="username">
     <input type="password" class="form-control" [(ngModel)]="password">
     <button (click)="login()">Login</button>
-    <button>Register User</button>
+    <a routerLink="/Register"><button (click)="toggleDisplay()">Register User</button></a> 
 }

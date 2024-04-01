@@ -10,7 +10,7 @@ export class DnDRulesService {
 
   constructor(private http : HttpClient) { }
 
-  url : string = "https://localhost:7223/"
+  url : string = "https://localhost:7121/"
 
   getAllRaces():Observable<RaceDTOModel[]>{
     return this.http.get<RaceDTOModel[]>(`${this.url}api/DnD/Race`)

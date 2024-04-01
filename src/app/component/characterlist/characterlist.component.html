@@ -1,1 +1,14 @@
-<p>characterlist works!</p>
+<div class="card">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img class="card-img" [src]="createImgPath(char.image.imagePath)">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <div class="card-title"><a routerLink="Character/{{char.characterId}}">{{char.name}}</a></div>
+                <div class="card-text">Race- {{char.race}} Class- {{char.class}} Level- {{char.level}}</div>
+            </div>
+        </div>
+    </div>
+    
+</div>

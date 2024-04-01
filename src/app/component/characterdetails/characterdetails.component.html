@@ -1,1 +1,14 @@
-<p>characterdetails works!</p>
+<h1>{{displayChar.name}}</h1>
+<h2>Race- {{displayChar.race}} Class-{{displayChar.class}}</h2>
+<h3>{{displayChar.level}}</h3>
+
+<img [src]="createImgPath(displayChar.image.imagePath)" style="width: 10rem; height: 10rem;">
+
+<div class="row">
+    @for (abi of displayChar.charAbilityScores; track $index) 
+    {
+        <div class="col-2">
+            <p>{{abi.index}}- {{abi.value}}</p>
+        </div>
+    }
+</div>

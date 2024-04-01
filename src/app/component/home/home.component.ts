@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { DnDRulesService } from '../../services/DndRules/dn-drules.service';
 import { RaceDTOModel } from '../../models/race-model';
+import { RouterLink } from '@angular/router';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, JsonPipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -25,6 +27,6 @@ export class HomeComponent {
   }
 
   createImgPath(r : RaceDTOModel):string{
-    return `https://localhost:7223/Images/Races/${r.index}.jpg`
+    return `https://localhost:7121/Images/Races/${r.index}.jpg`
   }
 }

@@ -1,1 +1,9 @@
-<p>registerpage works!</p>
+<img [src]="imgUrl" style="width: 10rem; height: 10rem; border-radius: 100%;" >
+
+<input type="text" [(ngModel)]="firstName">
+<input type="text" [(ngModel)]="lastName">
+<input type="text" [(ngModel)]="userName">
+<input type="password" [(ngModel)]="password">
+<input type="file" (change)="onFileSelected($event)">
+
+<button (click)="updateUser()">Create Account</button>

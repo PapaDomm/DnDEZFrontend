@@ -1,1 +1,6 @@
-<p>userupdateform works!</p>
+<input type="text" [(ngModel)]="firstName">
+<input type="text" [(ngModel)]="lastName">
+<input type="text" [(ngModel)]="userName">
+<input type="file" (change)="onFileSelected($event)">
+
+<button (click)="updateUser()">Update Account</button>

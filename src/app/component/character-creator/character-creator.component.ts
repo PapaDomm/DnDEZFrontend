@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CharacterService } from '../../services/Character/character.service';
 import { DnDRulesService } from '../../services/DndRules/dn-drules.service';
 import { CharAbilityScoreDTOModel } from '../../models/character';
 import { RaceDTOModel } from '../../models/race-model';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-character-creator',
@@ -13,9 +15,13 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './character-creator.component.css'
 })
 export class CharacterCreatorComponent {
-    constructor(private characterService:CharacterService, private dndrulesService: DnDRulesService){}
+    constructor(private characterService:CharacterService, private dndrulesService: DnDRulesService, private activatedRoute : ActivatedRoute){}
+
+    startingRace : RaceDTOModel = {} as RaceDTOModel;
 
     UserId : number = 0;
+
+    imgUrl : any;
 
     name : string = '';
 
@@ -59,6 +65,10 @@ export class CharacterCreatorComponent {
       {index : 'wis', value : 0, racialBonus : false},
       {index : 'cha', value : 0, racialBonus : false}
     ];
+
+    fileName : string = '';
+
+    jsonAbilitys : string = '';
 
     characterForm : FormData = new FormData();
 
@@ -105,6 +115,7 @@ export class CharacterCreatorComponent {
 
     totalAbilityScore(abi : CharAbilityScoreDTOModel):number{
       let value = abi.value + this.newCharacterAbilityScores.filter(a => a.index == abi.index)[0].value;
+      this.totalAbilityScores.filter(a => a.index == abi.index)[0].racialBonus = this.newCharacterAbilityScores.filter(a => a.index == abi.index)[0].racialBonus;
       return this.totalAbilityScores.filter(a => a.index == abi.index)[0].value = value;
     }
 
@@ -141,13 +152,23 @@ export class CharacterCreatorComponent {
     }
 
     ngOnInit(){
+
+      this.activatedRoute.paramMap.subscribe((params) => {
+        this.race = String(params.get("index"));
+        })
+
       this.getAllRaces();
       this.getAllClasses();
-    }
+      
+      }
 
     getAllRaces(){
       this.dndrulesService.getAllRaces().subscribe((response) => {
         this.raceStats = response;
+
+        if(this.race != ''){
+          this.changeRace();
+        }
       })
     }
 
@@ -158,7 +179,7 @@ export class CharacterCreatorComponent {
     }
 
     showabi(abi : CharAbilityScoreDTOModel):number{
-      return this.newCharacterAbilityScores.filter(a => a.index == abi.index)[0].value
+      return this.newCharacterAbilityScores.filter(a => a.index == abi.index)[0].value;
     }
 
     addCharacter(){
@@ -166,12 +187,14 @@ export class CharacterCreatorComponent {
       this.characterForm.append("Name", this.name);
       this.characterForm.append("Race", this.race);
       this.characterForm.append("Class", this.class);
-      this.characterForm.append("Level", this.level.toString())
-      for(let i = 0; i < this.totalAbilityScores.length; i++){
-        this.characterForm.append(`CharAbilityScores[${i}].Index`, this.totalAbilityScores[i].index);
-        this.characterForm.append(`CharAbilityScores[${i}].Value`, this.totalAbilityScores[i].value.toString());
-        this.characterForm.append(`CharAbilityScores[${i}].RacialBonus`, this.totalAbilityScores[i].racialBonus.toString());
-      }
+      this.characterForm.append("Level", this.level.toString());
+      // for(let i = 0; i < this.totalAbilityScores.length; i++){
+      //   this.jsonAbilitys += JSON.stringify(this.totalAbilityScores[i]);
+      // }
+
+      this.jsonAbilitys = JSON.stringify(this.totalAbilityScores);
+
+      this.characterForm.append("CharAbilityScores", this.jsonAbilitys);
 
       this.characterService.addNewCharacter(this.characterForm).subscribe((response) => {
         this.UserId = 0;
@@ -206,6 +229,25 @@ export class CharacterCreatorComponent {
         ]
         this.points = 27;
         this.characterForm = new FormData();
+        this.imgUrl = undefined;
       })
+    }
+
+    onFileChanged(event : any){
+      const file : File = event.target.files[0];
+
+      if(file){
+        this.fileName = file.name;
+
+        this.characterForm.append("Image", file);
+        this.characterForm.append("filename", file.name);
+
+        const reader : FileReader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (_event) => {
+          this.imgUrl = reader.result;
+        }
+      }
+      
     }
 }
