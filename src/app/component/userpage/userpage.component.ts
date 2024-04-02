@@ -47,4 +47,5 @@ export class UserpageComponent {
       this.router.navigate(["/Home"]);
     })
   }
+
 }

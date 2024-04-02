@@ -35,10 +35,22 @@ export class CharacterdetailsComponent {
  }
 
  activeUser(){
-  return this.userService.activeUser;
+    return this.userService.activeUser;
  }
  
  createImgPath(path : string){
-  return `${this.userService.url}${path}`
-}
+    return `${this.userService.url}${path}`
+  }
+
+  getUpdateCharacter() {
+    this.userService.updateCharacter = this.displayChar; 
+  }
+
+  deleteCharacter(){
+    this.characterService.deleteCharacter(this.displayChar.characterId).subscribe((response) => {
+      this.displayChar = {} as CharacterModel;
+      this.router.navigate(["/Profile"]);
+    })
+  }
+
 }

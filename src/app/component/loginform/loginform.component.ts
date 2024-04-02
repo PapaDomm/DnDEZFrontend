@@ -51,4 +51,9 @@ export class LoginformComponent {
   createImgPath(path : string):string{
     return `${this.userservice.url}${path}`
   }
+
+  updateCharacter() {
+    return this.userservice.updateCharacter;
+  }
+
 }

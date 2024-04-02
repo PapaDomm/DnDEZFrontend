@@ -4,6 +4,7 @@ import { CharacterCreatorComponent } from './component/character-creator/charact
 import { UserpageComponent } from './component/userpage/userpage.component';
 import { CharacterdetailsComponent } from './component/characterdetails/characterdetails.component';
 import { RegisterpageComponent } from './component/registerpage/registerpage.component';
+import { UpdatecharacterComponent } from './component/updatecharacter/updatecharacter.component';
 
 export const routes: Routes = [
     {path: "Home", component: HomeComponent},
@@ -12,5 +13,6 @@ export const routes: Routes = [
     {path: "Profile/:id", component: UserpageComponent},
     {path: "Character/:id", component: CharacterdetailsComponent},
     {path: "Register", component: RegisterpageComponent},
+    {path: "UpdateCharacter", component: UpdatecharacterComponent},
     {path: "**", component : HomeComponent}
-];
+]; 

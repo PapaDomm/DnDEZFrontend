@@ -70,10 +70,10 @@
     
     @if(isLoggedIn()){
         @if(points == 0) {
-        <button (click)="addCharacter()">Add</button>
+        <button (click)="updateCharacter()">Update</button>
         }
         @else {
-           <button disabled>Add</button> 
+           <button disabled>Update</button> 
         }
     }
     

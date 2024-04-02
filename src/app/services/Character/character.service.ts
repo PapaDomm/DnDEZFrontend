@@ -23,4 +23,13 @@ export class CharacterService {
   getById(charId : number):Observable<CharacterModel>{
     return this.http.get<CharacterModel>(`${this.url}api/Character/${charId}`);
   }
+
+  updateCharacter(characterForm:FormData, charId:number):Observable<CharacterModel> {
+    return this.http.put<CharacterModel>(`${this.url}api/Character/${charId}`, characterForm);
+  }
+
+  deleteCharacter(characterId : number){
+    return this.http.delete(`${this.url}api/Character/${characterId}`);
+  }
+
 }

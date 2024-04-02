@@ -9,6 +9,7 @@
             <div class="card-body">
                 <div class="card-title"><a routerLink="/Character/{{char.characterId}}">{{char.name}}</a></div>
                 <div class="card-text">Race- {{char.race}} Class- {{char.class}} Level- {{char.level}}</div>
+                <button (click)="deleteCharacter()">X</button>
             </div>
         </div>
     </div>
