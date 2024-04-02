@@ -1,4 +1,7 @@
-<img [src]="imgUrl" style="width: 10rem; height: 10rem; border-radius: 100%;" >
+@if(imgUrl != undefined){
+    <img [src]="imgUrl" style="width: 10rem; height: 10rem; border-radius: 100%;" >
+}
+
 
 <input type="text" [(ngModel)]="firstName">
 <input type="text" [(ngModel)]="lastName">

@@ -18,16 +18,14 @@ import { CharacterlistComponent } from '../characterlist/characterlist.component
 export class UserpageComponent {
   constructor(private userService : UserService, private characterService : CharacterService, private router : Router){}
 
-  userProfile : Usermodel = {} as Usermodel;
 
   userCharacters : CharacterModel[] = []
 
   ngOnInit(){
-    this.userProfile = this.getUser();
     if(!this.userService.isLoggedIn){
       this.router.navigate(["/NotFound"])
     }
-    this.characterService.getUserCharacters(this.userProfile.userId).subscribe((response) => {
+    this.characterService.getUserCharacters(this.getUser().userId).subscribe((response) => {
       this.userCharacters = response;
     })
   }

@@ -45,6 +45,7 @@ export class UserupdateformComponent {
       this.lastName = '';
       this.userName = '';
       this.updateForm = new FormData();
+      this.userService.activeUser = response;
       this.outputEmitter.emit();
     })
   }

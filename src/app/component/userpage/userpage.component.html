@@ -1,8 +1,8 @@
-<h1>{{userProfile.userName}}</h1>
-<h2>{{userProfile.firstName}} {{userProfile.lastName}}</h2>
+<h1>{{getUser().userName}}</h1>
+<h2>{{getUser().firstName}} {{getUser().lastName}}</h2>
 
-@if(userProfile.image != undefined){
-    <img [src]="createImgPath(userProfile.image.imagePath)">
+@if(getUser().image != undefined){
+    <img [src]="createImgPath(getUser().image.imagePath)">
 }
 
 
@@ -11,6 +11,6 @@
     <app-characterlist [char]="char"></app-characterlist>
 }
 
-<app-userupdateform [userId]="userProfile.userId" (outputEmitter)="ngOnInit()"></app-userupdateform>
+<app-userupdateform [userId]="getUser().userId" (outputEmitter)="ngOnInit()"></app-userupdateform>
 
 <button (click)="deleteUser()">Delete Account</button>

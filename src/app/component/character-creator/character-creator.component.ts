@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { CharacterService } from '../../services/Character/character.service';
 import { DnDRulesService } from '../../services/DndRules/dn-drules.service';
-import { CharAbilityScoreDTOModel } from '../../models/character';
+import { CharAbilityScoreDTOModel, CharacterModel } from '../../models/character';
 import { RaceDTOModel } from '../../models/race-model';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserService } from '../../services/user/user.service';
 
@@ -16,7 +16,7 @@ import { UserService } from '../../services/user/user.service';
   styleUrl: './character-creator.component.css'
 })
 export class CharacterCreatorComponent {
-    constructor(private characterService:CharacterService, private userService : UserService, private dndrulesService: DnDRulesService, private activatedRoute : ActivatedRoute){}
+    constructor(private characterService:CharacterService, private userService : UserService, private dndrulesService: DnDRulesService, private activatedRoute : ActivatedRoute, private router : Router){}
 
     startingRace : RaceDTOModel = {} as RaceDTOModel;
 
@@ -228,6 +228,7 @@ export class CharacterCreatorComponent {
         this.points = 27;
         this.characterForm = new FormData();
         this.imgUrl = undefined;
+        this.router.navigate([`/Profile/${this.activeUser().userId}`])
       })
     }
 
