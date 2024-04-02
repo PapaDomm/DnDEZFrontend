@@ -3,7 +3,9 @@
         <button (click)="toggleDisplay()">Login</button>
     }
     @else {
-        <img [src]="createImgPath(activeUser().image.imagePath)" style="width: 10rem; height: 10rem; border-radius: 100%;"><p>{{activeUser().userName}}</p>
+        @if(activeUser().image != undefined){
+            <img [src]="createImgPath(activeUser().image.imagePath)" style="width: 10rem; height: 10rem; border-radius: 100%;"><p>{{activeUser().userName}}</p>
+        }
         <button (click)="logout()">Logout</button>
     }
     

@@ -1,8 +1,4 @@
 <div class="container">
-    <div class="row">
-        <label for="user">UserId</label>
-        <input id="user" class="form-control" type="number" [(ngModel)]="UserId">
-    </div>
 
     <div class="row">
         <label for="name">Name</label>
@@ -72,6 +68,9 @@
         <img [src]="imgUrl" style="border-radius: 100%; width: 10rem; height: 10rem;">
     }
     
-    <button (click)="addCharacter()">Add</button>
+    @if(isLoggedIn()){
+        <button (click)="addCharacter()">Add</button>
+    }
+    
     
 </div>

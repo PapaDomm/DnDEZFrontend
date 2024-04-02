@@ -44,7 +44,8 @@ export class RegisterpageComponent {
   updateUser(){
     this.newUserForm.append("FirstName", this.firstName);
     this.newUserForm.append("LastName", this.lastName);
-    this.newUserForm.append("userName", this.userName);
+    this.newUserForm.append("UserName", this.userName);
+    this.newUserForm.append("Password", this.password);
 
     this.userService.addUser(this.newUserForm).subscribe((response) => {
       this.fileName = '';

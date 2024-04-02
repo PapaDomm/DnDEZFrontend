@@ -24,6 +24,9 @@ export class UserpageComponent {
 
   ngOnInit(){
     this.userProfile = this.getUser();
+    if(!this.userService.isLoggedIn){
+      this.router.navigate(["/NotFound"])
+    }
     this.characterService.getUserCharacters(this.userProfile.userId).subscribe((response) => {
       this.userCharacters = response;
     })

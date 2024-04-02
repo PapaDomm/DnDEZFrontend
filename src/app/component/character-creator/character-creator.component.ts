@@ -6,6 +6,7 @@ import { RaceDTOModel } from '../../models/race-model';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-character-creator',
@@ -15,11 +16,9 @@ import { Observable } from 'rxjs';
   styleUrl: './character-creator.component.css'
 })
 export class CharacterCreatorComponent {
-    constructor(private characterService:CharacterService, private dndrulesService: DnDRulesService, private activatedRoute : ActivatedRoute){}
+    constructor(private characterService:CharacterService, private userService : UserService, private dndrulesService: DnDRulesService, private activatedRoute : ActivatedRoute){}
 
     startingRace : RaceDTOModel = {} as RaceDTOModel;
-
-    UserId : number = 0;
 
     imgUrl : any;
 
@@ -183,7 +182,7 @@ export class CharacterCreatorComponent {
     }
 
     addCharacter(){
-      this.characterForm.append("UserId", this.UserId.toString());
+      this.characterForm.append("UserId", this.activeUser().userId.toString());
       this.characterForm.append("Name", this.name);
       this.characterForm.append("Race", this.race);
       this.characterForm.append("Class", this.class);
@@ -197,7 +196,6 @@ export class CharacterCreatorComponent {
       this.characterForm.append("CharAbilityScores", this.jsonAbilitys);
 
       this.characterService.addNewCharacter(this.characterForm).subscribe((response) => {
-        this.UserId = 0;
         this.name = '';
         this.race = '';
         this.class = '';
@@ -249,5 +247,13 @@ export class CharacterCreatorComponent {
         }
       }
       
+    }
+
+    activeUser(){
+      return this.userService.activeUser;
+    }
+
+    isLoggedIn(){
+      return this.userService.isLoggedIn;
     }
 }

@@ -1,6 +1,10 @@
 <h1>{{userProfile.userName}}</h1>
 <h2>{{userProfile.firstName}} {{userProfile.lastName}}</h2>
-<img [src]="createImgPath(userProfile.image.imagePath)">
+
+@if(userProfile.image != undefined){
+    <img [src]="createImgPath(userProfile.image.imagePath)">
+}
+
 
 @for (char of userCharacters; track $index) 
 {
