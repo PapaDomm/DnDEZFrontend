@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserService } from '../../services/user/user.service';
+import { Classmodel } from '../../models/classmodel';
 
 @Component({
   selector: 'app-character-creator',
@@ -44,9 +45,11 @@ export class CharacterCreatorComponent {
 
     class : string = '';
 
-    classStats : string[] = [];
+    classStats : Classmodel[] = [];
 
     level : string = '';
+
+    currentLevel : number = 1;
 
     points : number = 27;
 
@@ -211,12 +214,32 @@ export class CharacterCreatorComponent {
         this.profBonus = 6;
       }    
 
-      if(this.level ) {
+      if(this.currentLevel < Number(this.level)) {
+        if(Number(this.level) != 19) {
+          let bonus = Math.floor(Number(this.level) / 4) - Math.floor(Number(this.currentLevel) / 4);
+          this.points += bonus * 2;  
+        }
+        else {
+          let bonus = Math.ceil(Number(this.level) / 4) - Math.floor(Number(this.currentLevel) / 4);
+          this.points += bonus * 2;  
+        }
         
       }
-      else if() {
-
+      else if (this.currentLevel > Number(this.level)) {
+        this.BaseAbilityScores.forEach((abi) => {
+          abi.value = 8;
+        });
+        this.points = 27;
+        if(Number(this.level) != 19) {
+          let bonus = Math.floor(Number(this.currentLevel) / 4) - Math.floor(Number(this.level) / 4);
+          this.points += bonus * 2;  
+        }
+        else {
+          let bonus = Math.ceil(Number(this.currentLevel) / 4) - Math.floor(Number(this.level) / 4);
+          this.points += bonus * 2;  
+        }
       }
+      this.currentLevel = Number(this.level);
 
     }
 
@@ -228,6 +251,7 @@ export class CharacterCreatorComponent {
 
       this.getAllRaces();
       this.getAllClasses();
+      this.getAllAlignments();
       
       }
 

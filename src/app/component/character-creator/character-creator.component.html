@@ -9,7 +9,7 @@
         <label for="race">Race</label>
         <select id="race" class="form-control" [(ngModel)]="race" (change)="changeRace()" (change)="calcSpeed()">
             @for(race of raceStats; track $index){
-                <option value="{{race.index}}">{{race.index}}</option>
+                <option value="{{race.index}}">{{race.name}}</option>
             }
         </select>
     </div>
@@ -18,7 +18,7 @@
         <label for="class">Class</label>
         <select id="class" class="form-control" [(ngModel)]="class">
             @for(class of classStats; track $index){
-                <option value="{{class}}">{{class}}</option>
+                <option value="{{class.index}}">{{class.name}}</option>
             }
         </select>
     </div>
@@ -66,6 +66,10 @@
     
     <div>
         <p>Speed: {{this.currentRace.speed}}</p>
+    </div>
+
+    <div>
+        <p>Points to Spend: {{points}}</p>
     </div>
 
 

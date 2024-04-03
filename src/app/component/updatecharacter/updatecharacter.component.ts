@@ -6,6 +6,7 @@ import { CharacterService } from '../../services/Character/character.service';
 import { DnDRulesService } from '../../services/DndRules/dn-drules.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Classmodel } from '../../models/classmodel';
 
 @Component({
   selector: 'app-updatecharacter',
@@ -32,7 +33,7 @@ export class UpdatecharacterComponent {
 
   class : string = '';
 
-  classStats : string[] = [];
+  classStats : Classmodel[] = [];
 
   level : string = '';
 
