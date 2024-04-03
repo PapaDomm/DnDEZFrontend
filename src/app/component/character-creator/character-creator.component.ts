@@ -20,6 +20,18 @@ export class CharacterCreatorComponent {
 
     startingRace : RaceDTOModel = {} as RaceDTOModel;
 
+    speed : number = 30;
+
+    initiative : number = 0;
+
+    profBonus : number = 2;
+
+    pointsSpent : number = 0;
+
+    alignment : string = '';
+
+    alignmentArr : string[] = [];
+
     imgUrl : any;
 
     name : string = '';
@@ -119,35 +131,93 @@ export class CharacterCreatorComponent {
     }
 
     addAbilityScore(a : CharAbilityScoreDTOModel){
-      if(a.value < 15 && this.points >= 1)
+      if (Number(this.level) < 4 && this.pointsSpent < 27) {
+        if(a.value < 15 && this.points >= 1)
       {
         if(a.value >=13 && this.points >= 2)
         {
           a.value ++;
           this.points -= 2;
+          this.pointsSpent += 2;
         }
         else
         {
           a.value ++;
           this.points --;
+          this.pointsSpent ++;
         }
       }
+      } 
+      else {
+        if(this.points >= 1)
+        {
+          a.value ++;
+          this.points --;
+        }
+      }
+      
     }
 
     removeAbilityScore(a : CharAbilityScoreDTOModel){
-      if(a.value > 8)
+      if(this.pointsSpent <= 27 && Number(this.level) < 4) {
+        if(a.value > 8)
       {
         if(a.value > 13)
         {
           a.value --;
           this.points += 2;
+          this.pointsSpent -= 2;
         }
-        else
+        else 
         {
           a.value --;
           this.points ++;
+          this.pointsSpent --;
         }
       }
+      }
+      else {
+        if(a.value > 8) {
+          a.value--;
+          this.points++;
+          this.pointsSpent--;
+        }
+
+      }
+    }
+
+    calcSpeed() {
+      this.speed = this.currentRace.speed;
+    }
+
+    calcInitiative():number {
+      return this.initiative = Math.floor((this.totalAbilityScore(this.BaseAbilityScores.filter(a => a.index == "dex")[0]) - 10) / 2) ;
+    }
+
+    onLevel() {
+      if(Number(this.level) < 5 && Number(this.level) >= 1) {
+        this.profBonus = 2;
+      }  
+      else if (Number(this.level) < 9 && Number(this.level) >= 5) {
+        this.profBonus = 3;
+      }
+      else if (Number(this.level) < 13 && Number(this.level) >= 9) {
+         this.profBonus = 4;
+      } 
+      else if (Number(this.level) < 17 && Number(this.level) >= 13) {
+        this.profBonus = 5;
+      }            
+      else {
+        this.profBonus = 6;
+      }    
+
+      if(this.level ) {
+        
+      }
+      else if() {
+
+      }
+
     }
 
     ngOnInit(){
@@ -177,6 +247,12 @@ export class CharacterCreatorComponent {
       })
     }
 
+    getAllAlignments(){
+      this.dndrulesService.getAllAlignments().subscribe((response) => {
+        this.alignmentArr = response;
+      })
+    }
+
     showabi(abi : CharAbilityScoreDTOModel):number{
       return this.newCharacterAbilityScores.filter(a => a.index == abi.index)[0].value;
     }
@@ -187,6 +263,7 @@ export class CharacterCreatorComponent {
       this.characterForm.append("Race", this.race);
       this.characterForm.append("Class", this.class);
       this.characterForm.append("Level", this.level.toString());
+      this.characterForm.append("Speed", this.speed.toString());
       // for(let i = 0; i < this.totalAbilityScores.length; i++){
       //   this.jsonAbilitys += JSON.stringify(this.totalAbilityScores[i]);
       // }
@@ -200,6 +277,8 @@ export class CharacterCreatorComponent {
         this.race = '';
         this.class = '';
         this.level = '';
+        this.speed = -1;
+        this.initiative = -1;
         this.currentRace = {} as RaceDTOModel;
         this.newCharacterAbilityScores = [
           {index : 'str', value : 0, racialBonus : false},

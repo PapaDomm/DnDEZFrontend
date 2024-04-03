@@ -7,7 +7,7 @@
 
     <div class="row">
         <label for="race">Race</label>
-        <select id="race" class="form-control" [(ngModel)]="race" (change)="changeRace()">
+        <select id="race" class="form-control" [(ngModel)]="race" (change)="changeRace()" (change)="calcSpeed()">
             @for(race of raceStats; track $index){
                 <option value="{{race.index}}">{{race.index}}</option>
             }
@@ -25,7 +25,7 @@
 
     <div class="row">
         <label for="level">Level</label>
-        <select id="level" class="form-control" [(ngModel)]="level">
+        <select id="level" class="form-control" [(ngModel)]="level" (change)="onLevel()">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -48,13 +48,34 @@
             <option value="20">20</option>
         </select>
     </div>
+
+    <div class="row">
+        <label for="alignment">Alignment</label>
+        <select id="alignment" class="form-control" [(ngModel)]="alignment">
+            @for(alignment of alignmentArr; track $index){
+                <option value="{{alignment}}">{{alignment}}</option>
+            }
+        </select>
+    </div>
+
+    <br/>
+
+    <div>
+        <p>Initiative: {{calcInitiative()}}</p>
+    </div>
     
+    <div>
+        <p>Speed: {{this.currentRace.speed}}</p>
+    </div>
+
+
+    <hr/>
 
     <div class="row">
         @for (abi of BaseAbilityScores; track $index) 
         {
             <div class="col-2">
-                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)">+</button> <button (click)="removeAbilityScore(abi)">-</button>
+                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)" (change)="calcInitiative">+</button> <button (click)="removeAbilityScore(abi)" (change)="calcInitiative">-</button>
             </div>
         }
     </div>

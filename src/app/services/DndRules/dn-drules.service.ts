@@ -19,4 +19,9 @@ export class DnDRulesService {
   getAllClasses():Observable<string[]>{
     return this.http.get<string[]>(`${this.url}api/DnD/Class`)
   }
+
+  getAllAlignments():Observable<string[]>{
+    return this.http.get<string[]>(`${this.url}api/DnD/Alignment`)
+  }
+
 }
