@@ -1,0 +1,40 @@
+img{
+    height: 23rem;
+    width: 25rem;
+    border-radius: 100%;
+}
+
+.bottom-row{
+    margin-top: 10rem;
+    margin-bottom: 5rem;
+}
+
+.top-row{
+    margin-top: 5rem;
+}
+
+.about-text{
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 2rem 5rem 5rem 2rem;
+    height: 19rem;
+}
+
+.socials{
+    width: 2.3rem;
+    height: 2rem;
+    border-radius: 100%;
+}
+
+.square{
+    border-radius: 0%;
+}
+
+.socials:hover{
+    filter: drop-shadow(.2rem .2rem .2rem black);
+}
+
+ul{
+    list-style-type: none;
+    margin: 0;
+}

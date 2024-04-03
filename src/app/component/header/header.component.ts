@@ -13,5 +13,5 @@ import { UserService } from '../../services/user/user.service';
 export class HeaderComponent {
   constructor(private userService : UserService){}
 
-  title : string = 'Header';
+  headerImg : string = 'https://localhost:7121/Images/Icons/dndezheader.png';
 }
