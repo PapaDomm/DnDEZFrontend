@@ -13,7 +13,7 @@ export interface proficiency {
 export interface classSkill {
     index : string; 
     name : string;
-    score : skillAbility
+    score : skillAbility;
 }
 
 export interface skillAbility {

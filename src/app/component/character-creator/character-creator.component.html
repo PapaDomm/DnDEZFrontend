@@ -16,7 +16,7 @@
 
     <div class="row">
         <label for="class">Class</label>
-        <select id="class" class="form-control" [(ngModel)]="class">
+        <select id="class" class="form-control" [(ngModel)]="class" (change)="changeClass()">
             @for(class of classStats; track $index){
                 <option value="{{class.index}}">{{class.name}}</option>
             }
@@ -58,19 +58,46 @@
         </select>
     </div>
 
+    <div class="row">
+       @for(num of [].constructor(profsToChoose) ; track $index){
+        <label for="prof{{$index}}" class="margin-top: 1rem">Skill Proficiency {{$index + 1}}</label>
+        <select #prof$index id="prof{{$index}}" style="margin-top: .2rem; margin-bottom: 1rem;" class="form-control" [(ngModel)]="newCharSkills[$index]">
+            @for(skills of filterChoices(classProfs, newCharSkills, profsToChoose); track $index){
+                @if(containsSkill(skills) && newCharSkills[$parent.$index]){
+                    <option value="{{skills.index}}">{{skills.name}}</option>
+                }
+                @else{
+                    <option value="{{skills.index}}">{{skills.name}}</option>
+                }
+            }
+        </select>
+        <hr>
+       }
+    </div>
+
     <br/>
 
     <div>
-        <p>Initiative: {{calcInitiative()}}</p>
+        <p>Initiative: @if(calcInitiative() > 0){+}{{calcInitiative()}}</p>
     </div>
     
     <div>
-        <p>Speed: {{this.currentRace.speed}}</p>
+        <p>Speed: {{this.currentRace.speed}}FT</p>
+    </div>
+
+    <div>
+        <p>Proficiency Bonus: +{{profBonus}}</p>
     </div>
 
     <div>
         <p>Points to Spend: {{points}}</p>
     </div>
+
+    <div>
+        <p>Points Spent: {{pointsSpent}}</p>
+    </div>
+
+    
 
 
     <hr/>
@@ -79,28 +106,45 @@
         @for (abi of BaseAbilityScores; track $index) 
         {
             <div class="col-2">
-                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)" (change)="calcInitiative">+</button> <button (click)="removeAbilityScore(abi)" (change)="calcInitiative">-</button>
+                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)" (change)="calcInitiative()">+</button> <button (click)="removeAbilityScore(abi)" (change)="calcInitiative()">-</button>
             </div>
         }
+        <hr style="margin-top: 1rem;">
+    </div>
+
+    <div class="row">
+        @for (skill of BaseSkills; track $index) 
+        {
+            <div class="col-2">
+                <p>{{skill.index}}- @if(skill.value > 0){+}{{skill.value}}</p>
+            </div>
+        }
+        <hr style="margin-top: 1rem;">
     </div>
     
 
     <div class="row">
-        <input type="file" (change)="onFileChanged($event)">
+        <div class="col-2">
+            @if(imgUrl != undefined){
+                <img [src]="imgUrl" style="border-radius: 100%; width: 10rem; height: 10rem;">
+            }
+        </div>
+
+        <div class="col-2 align-self-center">
+            <input type="file" (change)="onFileChanged($event)">
+        </div>
+
+        <div class="col-2 align-self-center">
+            @if(isLoggedIn()){
+                @if(points == 0) {
+                <button (click)="addCharacter()">Add</button>
+                }
+                @else {
+                   <button disabled>Add</button> 
+                }
+            }
+        </div>
     </div>
-    
-    @if(imgUrl != undefined){
-        <img [src]="imgUrl" style="border-radius: 100%; width: 10rem; height: 10rem;">
-    }
-    
-    @if(isLoggedIn()){
-        @if(points == 0) {
-        <button (click)="addCharacter()">Add</button>
-        }
-        @else {
-           <button disabled>Add</button> 
-        }
-    }
     
     
 </div>

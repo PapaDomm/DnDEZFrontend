@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RaceDTOModel } from '../../models/race-model';
 import { Classmodel } from '../../models/classmodel';
+import { Skillmodel } from '../../models/skillmodel';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,10 @@ export class DnDRulesService {
 
   getAllAlignments():Observable<string[]>{
     return this.http.get<string[]>(`${this.url}api/DnD/Alignment`)
+  }
+
+  getAllSkills():Observable<Skillmodel[]>{
+    return this.http.get<Skillmodel[]>(`${this.url}api/DnD/Skills`)
   }
 
 }
