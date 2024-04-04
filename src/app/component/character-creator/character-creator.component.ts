@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CharacterService } from '../../services/Character/character.service';
 import { DnDRulesService } from '../../services/DndRules/dn-drules.service';
-import { CharAbilityScoreDTOModel, CharacterModel, Skill } from '../../models/character';
+import { CharAbilityScoreDTOModel, CharacterModel, SavingThrow, Skill } from '../../models/character';
 import { RaceDTOModel } from '../../models/race-model';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,11 +9,12 @@ import { Observable } from 'rxjs';
 import { UserService } from '../../services/user/user.service';
 import { Classmodel, classSkill } from '../../models/classmodel';
 import { Skillmodel } from '../../models/skillmodel';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-character-creator',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './character-creator.component.html',
   styleUrl: './character-creator.component.css'
 })
@@ -113,6 +114,15 @@ export class CharacterCreatorComponent {
       {index : 'survival', value : 0, proficient : false}
     ];
 
+    newCharSavingThrows : SavingThrow[] = [
+      {index : 'str', value : 0, proficient : false},
+      {index : 'dex', value : 0, proficient : false},
+      {index : 'con', value : 0, proficient : false},
+      {index : 'int', value : 0, proficient : false},
+      {index : 'wis', value : 0, proficient : false},
+      {index : 'cha', value : 0, proficient : false}
+    ];
+
     fileName : string = '';
 
     jsonAbilitys : string = '';
@@ -160,10 +170,6 @@ export class CharacterCreatorComponent {
       })
     }
 
-    addSkills(s : string){
-      this.newCharSkills.push(this.classProfs.filter(skill => skill.index == s)[0]);
-    }
-
     containsSkill(skill : classSkill):boolean{
       if(this.newCharSkills.some(s => s.index == skill.index)){
         return true;
@@ -173,19 +179,45 @@ export class CharacterCreatorComponent {
       }
     }
 
-    filterChoices(choices: classSkill[], selections: classSkill[], maxIndex : number) {
-      const inBoundsSelections = selections.filter((x, i) => i <= maxIndex);
-      return choices.filter(x => inBoundsSelections.indexOf(x) === -1);
-    }
-
     changeRace(){
       this.choseRace(this.raceStats.filter(r => r.index == this.race)[0])
+    }
+
+    addNewSkills(skill : string, num : number){
+      if(this.newCharSkills[num] != undefined || skill == "null"){
+        this.removeSkillProficiency(this.newCharSkills[num].index);
+      }
+
+      if(skill != "null"){
+        this.newCharSkills[num] = this.classProfs.filter(s => s.index == skill)[0];
+        this.addSkillProficiency(skill);
+      }
+      
+      this.getSkillValue();
+    }
+
+    addSkillProficiency(skill : string){
+      this.BaseSkills.filter(s => s.index == skill)[0].proficient = true;
+    }
+
+    removeSkillProficiency(skill : string){
+      this.BaseSkills.filter(s => s.index == skill)[0].proficient = false;
     }
 
     changeClass(){
       this.currentClass = this.classStats.filter(c => c.index == this.class)[0]
       this.classProfs = this.currentClass.proficiency.choices;
       this.profsToChoose = this.currentClass.proficiency.choose;
+      this.newCharSkills.length = this.profsToChoose;
+      this.newCharSavingThrows.forEach((st) => {
+        if(this.currentClass.saving_Throws.some(t => t.index == st.index)){
+          st.proficient = true;
+        }
+        else{
+          st.proficient = false;
+        }
+      })
+      this.getSavingThrowValue(); 
     }
 
     totalAbilityScore(abi : CharAbilityScoreDTOModel):number{
@@ -222,6 +254,7 @@ export class CharacterCreatorComponent {
         }
       }
       this.getSkillValue();
+      this.getSavingThrowValue();
       
     }
 
@@ -253,6 +286,7 @@ export class CharacterCreatorComponent {
       }
       
       this.getSkillValue();
+      this.getSavingThrowValue();
     }
 
     calcSpeed() {
@@ -261,6 +295,10 @@ export class CharacterCreatorComponent {
 
     calcInitiative():number {
       return this.initiative = Math.floor((this.totalAbilityScore(this.BaseAbilityScores.filter(a => a.index == "dex")[0]) - 10) / 2) ;
+    }
+
+    getTrue(){
+      return true;
     }
 
     onLevel() {
@@ -308,6 +346,9 @@ export class CharacterCreatorComponent {
       }
       this.currentLevel = Number(this.level);
 
+      this.getSkillValue();
+      this.getSavingThrowValue();
+
     }
 
     getSkillValue(){
@@ -316,6 +357,16 @@ export class CharacterCreatorComponent {
         skill.value = abiModifier;
         if(skill.proficient == true){
           skill.value += this.profBonus;
+        }
+      })
+    }
+
+    getSavingThrowValue(){
+      this.newCharSavingThrows.forEach((st) => {
+        let abiModifier = Math.floor((this.totalAbilityScore(this.BaseAbilityScores.filter(a => a.index == st.index)[0]) - 10) / 2);
+        st.value = abiModifier;
+        if(st.proficient == true){
+          st.value += this.profBonus;
         }
       })
     }
@@ -331,6 +382,8 @@ export class CharacterCreatorComponent {
       this.getAllRaces();
       this.getAllClasses();
       this.getAllAlignments();
+      this.getSavingThrowValue();
+      this.getSkillValue();
       
       }
 

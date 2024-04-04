@@ -59,20 +59,23 @@
     </div>
 
     <div class="row">
-       @for(num of [].constructor(profsToChoose) ; track $index){
-        <label for="prof{{$index}}" class="margin-top: 1rem">Skill Proficiency {{$index + 1}}</label>
-        <select #prof$index id="prof{{$index}}" style="margin-top: .2rem; margin-bottom: 1rem;" class="form-control" [(ngModel)]="newCharSkills[$index]">
-            @for(skills of filterChoices(classProfs, newCharSkills, profsToChoose); track $index){
-                @if(containsSkill(skills) && newCharSkills[$parent.$index]){
-                    <option value="{{skills.index}}">{{skills.name}}</option>
-                }
-                @else{
-                    <option value="{{skills.index}}">{{skills.name}}</option>
-                }
-            }
-        </select>
-        <hr>
-       }
+        <ng-template ngFor let-num [ngForOf]="[].constructor(profsToChoose)" let-i="index">
+            <div>
+                <label for="prof{{i}}" class="margin-top: 1rem">Skill Proficiency {{i + 1}}</label>
+                <select #prof$index id="prof{{i}}" style="margin-top: .2rem; margin-bottom: 1rem;" class="form-control" (change)="addNewSkills(prof$index.value, i)">
+                    <option value="null"></option>
+                    <ng-template ngFor let-skills [ngForOf]="classProfs" let-j="index">
+                        @if(containsSkill(skills) && newCharSkills[i] != skills){
+                            <option value="{{skills.index}}" disabled>{{skills.name}}</option>
+                        }
+                        @else {
+                            <option value="{{skills.index}}">{{skills.name}}</option>
+                        }
+                    </ng-template>
+                </select>
+            </div>
+        </ng-template>
+        
     </div>
 
     <br/>
@@ -110,6 +113,15 @@
             </div>
         }
         <hr style="margin-top: 1rem;">
+    </div>
+
+    <div class="row">
+        @for(st of newCharSavingThrows; track $index){
+            <div class="col-2">
+                <p>{{st.index}}- @if(st.value > 0){+}{{st.value}}</p>
+            </div>
+        }
+        <hr>
     </div>
 
     <div class="row">
