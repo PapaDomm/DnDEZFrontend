@@ -1,13 +1,17 @@
 <h1>{{displayChar.name}}</h1>
+<hr>
 <h2>Race- {{displayChar.race}} Class-{{displayChar.class}}</h2>
-<h3>{{displayChar.level}}</h3>
+<h3>Level: {{displayChar.level}}</h3>
+<hr>
+<h4>Alignment- {{displayChar.alignment}}</h4>
 
 @if(displayChar.image != undefined){
     <img [src]="createImgPath(displayChar.image.imagePath)" style="width: 10rem; height: 10rem;">
 }
-
+<hr>
 
 <div class="row">
+    <h3>Ability Scores</h3>
     @for (abi of displayChar.charAbilityScores; track $index) 
     {
         <div class="col-2">
@@ -15,6 +19,39 @@
         </div>
     }
 </div>
+<hr>
+
+<div class="row">
+    <p>Proficiency Bonus- {{displayChar.profBonus}}</p>
+</div>
+
+<div class="row">
+    <p>Speed- {{displayChar.speed}}FT</p>
+</div>
+
+<hr>
+
+<div class="row">
+    <h3>Skills</h3>
+    @for (skills of displayChar.charSkillScores; track $index) {
+        <div class="col-2">
+            <p>{{skills.index}}- @if(skills.value > 0){+}{{skills.value}}</p>
+        </div>
+    }
+</div>
+
+<hr>
+
+<div class="row">
+    <h3>Saving Throws</h3>
+    @for (saves of displayChar.savingThrows; track $index) {
+        <div class="col-2">
+            <p>{{saves.index}}- @if(saves.value > 0){+}{{saves.value}}</p>
+        </div>
+    }
+</div>
+
+<hr>
 
 <button routerLink="/UpdateCharacter" (click)="getUpdateCharacter()">Update Character</button>
 <button (click)="deleteCharacter()">X</button>

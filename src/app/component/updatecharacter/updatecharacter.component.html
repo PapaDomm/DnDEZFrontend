@@ -16,9 +16,9 @@
 
     <div class="row">
         <label for="class">Class</label>
-        <select id="class" class="form-control" [(ngModel)]="class">
+        <select id="class" class="form-control" [(ngModel)]="class" (change)="changeClass()">
             @for(class of classStats; track $index){
-                <option value="{{class}}">{{class}}</option>
+                <option value="{{class.index}}">{{class.name}}</option>
             }
         </select>
     </div>
@@ -48,7 +48,57 @@
             <option value="20">20</option>
         </select>
     </div>
+
+    <div class="row">
+        <label for="alignment">Alignment</label>
+        <select id="alignment" class="form-control" [(ngModel)]="alignment">
+            @for(alignment of alignmentArr; track $index){
+                <option value="{{alignment}}">{{alignment}}</option>
+            }
+        </select>
+    </div>
     
+    <div class="row">
+        <ng-template ngFor let-num [ngForOf]="[].constructor(profsToChoose)" let-i="index">
+            <div>
+                <label for="prof{{i}}" class="margin-top: 1rem">Skill Proficiency {{i + 1}}</label>
+                <select #prof$index id="prof{{i}}" style="margin-top: .2rem; margin-bottom: 1rem;" class="form-control" (change)="addNewSkills(prof$index.value, i)">
+                    <option value="null"></option>
+                    <ng-template ngFor let-skills [ngForOf]="classProfs" let-j="index">
+                        @if(containsSkill(skills) && newCharSkills[i] != skills){
+                            <option value="{{skills.index}}" disabled>{{skills.name}}</option>
+                        }
+                        @else {
+                            <option value="{{skills.index}}">{{skills.name}}</option>
+                        }
+                    </ng-template>
+                </select>
+            </div>
+        </ng-template>
+        
+    </div>
+
+    <div>
+        <p>Initiative: @if(calcInitiative() > 0){+}{{calcInitiative()}}</p>
+    </div>
+    
+    <div>
+        <p>Speed: {{this.currentRace.speed}}FT</p>
+    </div>
+
+    <div>
+        <p>Proficiency Bonus: +{{profBonus}}</p>
+    </div>
+
+    <div>
+        <p>Points to Spend: {{points}}</p>
+    </div>
+
+    <div>
+        <p>Points Spent: {{pointsSpent}}</p>
+    </div>
+
+    <hr>
 
     <div class="row">
         @for (abi of BaseAbilityScores; track $index) 
@@ -58,24 +108,49 @@
             </div>
         }
     </div>
+
+    <div class="row">
+        @for(st of newCharSavingThrows; track $index){
+            <div class="col-2">
+                <p>{{st.index}}- @if(st.value > 0){+}{{st.value}}</p>
+            </div>
+        }
+        <hr>
+    </div>
+
+    <div class="row">
+        @for (skill of BaseSkills; track $index) 
+        {
+            <div class="col-2">
+                <p>{{skill.index}}- @if(skill.value > 0){+}{{skill.value}}</p>
+            </div>
+        }
+        <hr style="margin-top: 1rem;">
+    </div>
     
 
     <div class="row">
-        <input type="file" (change)="onFileChanged($event)">
+        <div class="col-2">
+            @if(imgUrl != undefined){
+                <img [src]="imgUrl" style="border-radius: 100%; width: 10rem; height: 10rem;">
+            }
+        </div>
+
+        <div class="col-2 align-self-center">
+            <input type="file" (change)="onFileChanged($event)">
+        </div>
+
+        <div class="col-2 align-self-center">
+            @if(isLoggedIn()){
+                @if(points == 0) {
+                <button (click)="updateCharacter()">Update</button>
+                }
+                @else {
+                   <button disabled>Update</button> 
+                }
+            }
+        </div>
     </div>
-    
-    @if(imgUrl != undefined){
-        <img [src]="imgUrl" style="border-radius: 100%; width: 10rem; height: 10rem;">
-    }
-    
-    @if(isLoggedIn()){
-        @if(points == 0) {
-        <button (click)="updateCharacter()">Update</button>
-        }
-        @else {
-           <button disabled>Update</button> 
-        }
-    }
     
     
 </div>

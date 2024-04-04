@@ -34,6 +34,7 @@ export class CharacterdetailsComponent {
   })
  }
 
+
  activeUser(){
     return this.userService.activeUser;
  }

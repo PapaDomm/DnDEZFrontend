@@ -297,10 +297,6 @@ export class CharacterCreatorComponent {
       return this.initiative = Math.floor((this.totalAbilityScore(this.BaseAbilityScores.filter(a => a.index == "dex")[0]) - 10) / 2) ;
     }
 
-    getTrue(){
-      return true;
-    }
-
     onLevel() {
       if(Number(this.level) < 5 && Number(this.level) >= 1) {
         this.profBonus = 2;
@@ -427,22 +423,45 @@ export class CharacterCreatorComponent {
       this.characterForm.append("Class", this.class);
       this.characterForm.append("Level", this.level.toString());
       this.characterForm.append("Speed", this.speed.toString());
+      this.characterForm.append("ProfBonus", this.profBonus.toString());
+      this.characterForm.append("Initiative", this.calcInitiative().toString());
+      this.characterForm.append("Alignment", this.alignment);
       // for(let i = 0; i < this.totalAbilityScores.length; i++){
       //   this.jsonAbilitys += JSON.stringify(this.totalAbilityScores[i]);
       // }
 
       this.jsonAbilitys = JSON.stringify(this.totalAbilityScores);
+      this.jsonSkills = JSON.stringify(this.BaseSkills);
+      this.jsonSaves = JSON.stringify(this.newCharSavingThrows);
 
       this.characterForm.append("CharAbilityScores", this.jsonAbilitys);
+      this.characterForm.append("CharSkillScores", this.jsonSkills);
+      this.characterForm.append("CharSavingThrows", this.jsonSaves);
 
       this.characterService.addNewCharacter(this.characterForm).subscribe((response) => {
         this.name = '';
         this.race = '';
         this.class = '';
         this.level = '';
-        this.speed = -1;
-        this.initiative = -1;
+        this.speed = 0;
+        this.profBonus = 0;
+        this.initiative = 0;
+        this.alignment = '';
+
+        this.jsonAbilitys = '';
+        this.jsonSkills = '';
+        this.jsonSaves = '';
+
+        this.pointsSpent = 0;
+
         this.currentRace = {} as RaceDTOModel;
+        this.currentClass = {} as Classmodel;
+        this.skills = [];
+        this.newCharSkills = [];
+        this.classProfs = [];
+        this.profsToChoose = 0;
+        this.currentLevel = 1;
+
         this.newCharacterAbilityScores = [
           {index : 'str', value : 0, racialBonus : false},
           {index : 'dex', value : 0, racialBonus : false},
@@ -467,9 +486,41 @@ export class CharacterCreatorComponent {
           {index : 'wis', value : 8, racialBonus : false},
           {index : 'cha', value : 8, racialBonus : false}
         ]
+
+        this.BaseSkills = [
+          {index : 'acrobatics', value : 0, proficient : false},
+          {index : 'animal-handling', value : 0, proficient : false},
+          {index : 'arcana', value : 0, proficient : false},
+          {index : 'athletics', value : 0, proficient : false},
+          {index : 'deception', value : 0, proficient : false},
+          {index : 'history', value : 0, proficient : false},
+          {index : 'insight', value : 0, proficient : false},
+          {index : 'intimidation', value : 0, proficient : false},
+          {index : 'investigation', value : 0, proficient : false},
+          {index : 'medicine', value : 0, proficient : false},
+          {index : 'nature', value : 0, proficient : false},
+          {index : 'perception', value : 0, proficient : false},
+          {index : 'performance', value : 0, proficient : false},
+          {index : 'persuasion', value : 0, proficient : false},
+          {index : 'religion', value : 0, proficient : false},
+          {index : 'sleight-of-hand', value : 0, proficient : false},
+          {index : 'stealth', value : 0, proficient : false},
+          {index : 'survival', value : 0, proficient : false}
+        ];
+    
+        this.newCharSavingThrows = [
+          {index : 'str', value : 0, proficient : false},
+          {index : 'dex', value : 0, proficient : false},
+          {index : 'con', value : 0, proficient : false},
+          {index : 'int', value : 0, proficient : false},
+          {index : 'wis', value : 0, proficient : false},
+          {index : 'cha', value : 0, proficient : false}
+        ];
+
         this.points = 27;
         this.characterForm = new FormData();
         this.imgUrl = undefined;
+        this.fileName = '';
         this.router.navigate([`/Profile/${this.activeUser().userId}`])
       })
     }

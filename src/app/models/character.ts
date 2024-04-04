@@ -11,8 +11,8 @@ export interface CharacterModel {
     level : number;
     initiative : number;
     image : Image;
-    proficiencyBonus : number;
-    skills : Skill[];
+    profBonus : number;
+    charSkillScores : Skill[];
     savingThrows : SavingThrow[];
     charAbilityScores : CharAbilityScoreDTOModel[];
 
