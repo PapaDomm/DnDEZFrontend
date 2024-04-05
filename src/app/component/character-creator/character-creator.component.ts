@@ -183,15 +183,12 @@ export class CharacterCreatorComponent {
       this.choseRace(this.raceStats.filter(r => r.index == this.race)[0])
     }
 
-    addNewSkills(skill : string, num : number){
-      if(this.newCharSkills[num] != undefined || skill == "null"){
+    addNewSkills(num : number){
+      if(this.newCharSkills[num] != undefined){
         this.removeSkillProficiency(this.newCharSkills[num].index);
       }
-
-      if(skill != "null"){
-        this.newCharSkills[num] = this.classProfs.filter(s => s.index == skill)[0];
-        this.addSkillProficiency(skill);
-      }
+      
+      this.addSkillProficiency(this.newCharSkills[num].index);
       
       this.getSkillValue();
     }

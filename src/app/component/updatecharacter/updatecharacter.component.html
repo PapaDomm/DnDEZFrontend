@@ -25,7 +25,7 @@
 
     <div class="row">
         <label for="level">Level</label>
-        <select id="level" class="form-control" [(ngModel)]="level">
+        <select id="level" class="form-control" [(ngModel)]="level" (change)="onLevel()">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -58,24 +58,42 @@
         </select>
     </div>
     
-    <div class="row">
+    <!-- <div class="row">
         <ng-template ngFor let-num [ngForOf]="[].constructor(profsToChoose)" let-i="index">
             <div>
                 <label for="prof{{i}}" class="margin-top: 1rem">Skill Proficiency {{i + 1}}</label>
-                <select #prof$index id="prof{{i}}" style="margin-top: .2rem; margin-bottom: 1rem;" class="form-control" (change)="addNewSkills(prof$index.value, i)">
+                <select #prof$index id="prof{{i}}" style="margin-top: .2rem; margin-bottom: 1rem;" class="form-control" (change)="addNewSkills(prof$index.value, i)" >
                     <option value="null"></option>
                     <ng-template ngFor let-skills [ngForOf]="classProfs" let-j="index">
                         @if(containsSkill(skills) && newCharSkills[i] != skills){
-                            <option value="{{skills.index}}" disabled>{{skills.name}}</option>
+                            <option class="skillValue" value="{{skills.index}}" disabled>{{skills.name}}</option>
                         }
                         @else {
-                            <option value="{{skills.index}}">{{skills.name}}</option>
+                            <option class="skillValue" value="{{skills.index}}">{{skills.name}}</option>
                         }
                     </ng-template>
                 </select>
             </div>
         </ng-template>
         
+    </div> -->
+
+    <div class="row">
+        <ng-template ngFor let-num [ngForOf]="[].constructor(profsToChoose)" let-i="index">
+            <div>
+                <label for="prof{{i}}" class="margin-top: 1rem">Skill Proficiency {{i + 1}}</label>
+                <select #prof$index id="prof{{i}}" style="margin-top: .2rem; margin-bottom: 1rem;" class="form-control" [(ngModel)]="newCharSkills[i]" (change)="addNewSkills(i)" >
+                    @for(skills of classProfs; track $index){
+                        @if(containsSkill(skills) && newCharSkills[i] != skills){
+                            <option [ngValue]="skills" disabled>{{skills.name}}</option>
+                        }
+                        @else {
+                            <option [ngValue]="skills">{{skills.name}}</option>
+                        }
+                    }
+                </select>
+            </div>
+        </ng-template>
     </div>
 
     <div>

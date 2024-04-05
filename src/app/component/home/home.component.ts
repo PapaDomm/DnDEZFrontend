@@ -14,7 +14,7 @@ import { JsonPipe } from '@angular/common';
 export class HomeComponent {
   constructor(private dndrulesService : DnDRulesService){ }
 
-  allRaces : RaceDTOModel[] = []
+  allRaces : RaceDTOModel[] = [];
 
   ngOnInit(){
     this.getAllRaces();
@@ -29,4 +29,5 @@ export class HomeComponent {
   createImgPath(r : RaceDTOModel):string{
     return `https://localhost:7121/Images/Races/${r.index}.jpg`
   }
+
 }

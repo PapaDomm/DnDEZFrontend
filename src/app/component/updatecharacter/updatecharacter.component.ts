@@ -130,6 +130,8 @@ export class UpdatecharacterComponent {
 
   jsonSaves : string = '';
 
+  optionList!: NodeListOf<HTMLOptionElement>;
+
   characterForm : FormData = new FormData();
 
   ngOnInit(){
@@ -142,10 +144,10 @@ export class UpdatecharacterComponent {
     this.initiative = this.displayChar.initiative;
     this.profBonus = this.displayChar.profBonus;
     if(this.displayChar.level != 19){
-      this.pointsSpent = ((Math.floor(this.displayChar.level) / 4) * 2) + 27;
+      this.pointsSpent = (Math.floor(this.displayChar.level / 4) * 2) + 27;
     }
     else{
-      this.pointsSpent = ((Math.ceil(this.displayChar.level) / 4) * 2) + 27;
+      this.pointsSpent = (Math.ceil(this.displayChar.level / 4) * 2) + 27;
     }
     this.alignment = this.displayChar.alignment;
     this.currentLevel = this.displayChar.level;
@@ -209,15 +211,13 @@ export class UpdatecharacterComponent {
     this.choseRace(this.raceStats.filter(r => r.index == this.race)[0])
   }
 
-  addNewSkills(skill : string, num : number){
-    if(this.newCharSkills[num] != undefined || skill == "null"){
+  addNewSkills(num : number){
+    if(this.newCharSkills[num] != undefined){
       this.removeSkillProficiency(this.newCharSkills[num].index);
     }
 
-    if(skill != "null"){
-      this.newCharSkills[num] = this.classProfs.filter(s => s.index == skill)[0];
-      this.addSkillProficiency(skill);
-    }
+    this.addSkillProficiency(this.newCharSkills[num].index);
+    
     
     this.getSkillValue();
   }
@@ -413,18 +413,26 @@ export class UpdatecharacterComponent {
 
       if(this.class != ''){
         this.changeClass();
+        let profSkills = this.displayChar.charSkillScores.filter(s => s.proficient == true);
         let i = 0;
-        this.displayChar.charSkillScores.filter(profSkill => profSkill.proficient == true).forEach((s) => {
-          let chosenSkill = this.classProfs.filter(skill => skill.index == s.index)[0];
-          this.newCharSkills[i] = chosenSkill
-          const myElement = document.querySelector(`#prof$index`);
-          myElement!.nodeValue = chosenSkill.index;
+        profSkills.forEach((skill) => {
+          this.newCharSkills[i] = this.classProfs.filter(s => s.index == skill.index)[0];
+          this.addNewSkills(i);
           i++;
-        });
-        this.getSkillValue();
+        })
+        this.getSkillValue();        
         this.getSavingThrowValue();
       }
     })
+  }
+
+  getInitialValue(i : number){
+    if(this.newCharSkills[i] == undefined){
+      this.newCharSkills[i] = this.classProfs.filter(s => s.index == this.displayChar.charSkillScores.filter(profSkill => profSkill.proficient == true && !this.newCharSkills.some(skill => skill.index != profSkill.index))[0].index)[0];
+    }
+
+    return this.newCharSkills[i].index;
+    
   }
 
   getAllSkills(){
