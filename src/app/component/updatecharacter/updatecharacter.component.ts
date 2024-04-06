@@ -227,7 +227,11 @@ export class UpdatecharacterComponent {
   }
 
   removeSkillProficiency(skill : string){
-    this.BaseSkills.filter(s => s.index == skill)[0].proficient = false;
+    this.BaseSkills.forEach((s) => {
+      if(!this.newCharSkills.some(skills => skills.index = s.index)){
+        s.proficient = false;
+      }
+    })
   }
 
   changeClass(){

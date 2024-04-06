@@ -12,7 +12,7 @@ export class D10Component {
   constructor() {}
   die: HTMLElement | undefined;
   sides: number = 10;
-  initialSide: number = 1;
+  initialSide: number = 0;
   lastFace: number | undefined; 
   timeoutId: any;
   transitionDuration: number = 500;
@@ -20,14 +20,6 @@ export class D10Component {
 
   ngOnInit(): void {
     this.die = document.querySelector('.die1') as HTMLElement;
-
-    document.querySelectorAll('ul > li > a').forEach(anchor => {
-      anchor.addEventListener('click', (event) => {
-        this.reset();
-        this.rollTo((event.target as HTMLAnchorElement).getAttribute('href'));
-        event.preventDefault();
-      });
-    });
 
     document.querySelectorAll('.randomize, .die1').forEach(element => {
       element.addEventListener('click', () => {
@@ -45,24 +37,13 @@ export class D10Component {
 
   randomFace(): number {
     let face = Math.floor((Math.random() * this.sides)) + this.initialSide;
-    this.lastFace = this.lastFace === face ? this.randomFace() : face;
+    this.lastFace = face === 0 ? 10 : face;
     return face;
   }
 
   rollTo(face: string | null): void {
     clearTimeout(this.timeoutId);
-    document.querySelectorAll('ul > li > a').forEach(anchor => {
-      anchor.classList.remove('active');
-    });
-    if (face) {
-      document.querySelector(`[href='${face}']`)?.classList.add('active');
-    }
     this.die!.setAttribute('data-face', face || '');
-  }
-
-  reset(): void {
-    this.die!.setAttribute('data-face', '');
-    this.die!.classList.remove('rolling');
   }
 }
 

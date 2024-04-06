@@ -5,11 +5,13 @@ import { RouterLink } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import { DieComponent } from '../die/die.component';
 import { D10Component } from '../d10/d10.component';
+import { D8Component } from '../d8/d8.component';
+import { D6Component } from '../d6/d6.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, JsonPipe, DieComponent, D10Component],
+  imports: [RouterLink, JsonPipe, DieComponent, D10Component, D8Component, D6Component],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
