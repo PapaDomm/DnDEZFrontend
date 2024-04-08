@@ -2,6 +2,7 @@ export interface Classmodel {
     index : string;
     name : string;
     proficiency : proficiency;
+    hit_die : number;
     saving_Throws : classSavingThrow[]
 }
 

@@ -12,6 +12,12 @@ export interface CharacterModel {
     initiative : number;
     image : Image;
     profBonus : number;
+    personality : string;
+    ideals : string;
+    bonds : string;
+    flaws: string;
+    hitDie: number;
+    hp:number;
     charSkillScores : Skill[];
     savingThrows : SavingThrow[];
     charAbilityScores : CharAbilityScoreDTOModel[];

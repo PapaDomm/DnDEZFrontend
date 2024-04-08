@@ -1,5 +1,5 @@
-<div class="content">
-    <div class="die2">
+<div class="content" (click)="onClick()">
+    <div class="die-{{dieNumber}}">
       <figure class="face face-1"></figure>
       <figure class="face face-2"></figure>
       <figure class="face face-3"></figure>
@@ -10,7 +10,7 @@
       <figure class="face face-8"></figure>
     </div>
   </div>
-  <p style="text-align: center;">{{lastFace}}</p>
+  <p style="text-align: center;">Health: {{lastFace}}</p>
 
 
 

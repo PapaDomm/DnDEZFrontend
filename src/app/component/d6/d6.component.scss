@@ -23,92 +23,94 @@ $color: rgba(0, 0, 0, $opacity);
   height: $containerHeight;
   perspective: 800px;
 }
-.die3{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform $transitionDuration ease-out;
-  cursor: pointer;
-  &.reset {
-    transition: transform 0.1s ease-out;
-    transform: rotateX(0);
-  }
-  &.rolling {
-    animation: roll $animationDuration linear;
-  }
-  @for $i from 1 through 6 {
-    &[data-face="#{$i}"] {
-      @if($i == 1){
-        transform: rotateX(0deg) translateY(-$internalHeight);
-      }
-      @else if($i == 2){
-        transform: rotateX(180deg) translateY(-$internalHeight);
-      }
-      @else if($i == 3){
-        transform: rotateX(-90deg);
-      }
-      @else if($i == 4){
-        transform: rotateX(90deg) translateY(-$internalHeight);
-      }
-      @else if($i == 5){
-        transform: rotateY(-90deg) translateY(-$internalHeight);
-      }
-      @else if($i == 6){
-        transform: rotateY(90deg) translateY(-$internalHeight);
-      }
-    }
-    .face.face-#{$i} {
-        @if($i == 1){
-            transform: translateZ($internalHeight);
-          }
-          @else if($i == 2){
-            transform: rotateX(180deg)translateZ($internalHeight);
-          }
-          @else if($i == 3){
-            transform: rotateX(90deg) translateZ($internalHeight);
-          }
-          @else if($i == 4){
-            transform: rotateX(-90deg) translateZ($internalHeight);
-          }
-          @else if($i == 5){
-            transform: rotatey(90deg) translateZ($internalHeight);
-          }
-          @else if($i == 6){
-            transform: rotatey(-90deg) translateZ($internalHeight);
-          }
-    }
-  }
-  .face {
-    $horizontalMargin: -$internalWidth;
+@for $i from 0 through 100 {
+    .die-#{$i}{
     position: absolute;
-    left: 50%;
-    top: 50%;
-    margin: 0 $horizontalMargin;
-    border-top: $internalHeight solid $color;
-    border-left: $internalWidth solid $color;
-    border-right: $internalWidth solid $color;
-    border-bottom: $internalHeight solid $color;
-    backface-visibility: hidden;
-    width: 0px;
-    height: 0px;
-    transform-style: preserve-3d;;
-    counter-increment: steps 1;
-    &:first-child {
-      counter-increment: steps 1;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform $transitionDuration ease-out;
+    cursor: pointer;
+    &.reset {
+        transition: transform 0.1s ease-out;
+        transform: rotateX(0);
     }
-    &:before {
-      content: counter(steps);
-      position: absolute;
-      top: $internalHeight*.001;
-      left: -$internalWidth * .45;
-      color: #fff;
-      text-shadow: 1px 1px 3px #000;
-      font-size: $internalHeight*1.5;
-      text-align: center;
-      line-height: $internalHeight*.001;
-      width: 100%;
-      height: 100%;
+    &.rolling {
+        animation: roll $animationDuration linear;
     }
-  }
+    @for $i from 1 through 6 {
+        &[data-face="#{$i}"] {
+        @if($i == 1){
+            transform: rotateX(0deg) translateY(-$internalHeight);
+        }
+        @else if($i == 2){
+            transform: rotateX(180deg) translateY(-$internalHeight);
+        }
+        @else if($i == 3){
+            transform: rotateX(-90deg);
+        }
+        @else if($i == 4){
+            transform: rotateX(90deg) translateY(-$internalHeight);
+        }
+        @else if($i == 5){
+            transform: rotateY(-90deg) translateY(-$internalHeight);
+        }
+        @else if($i == 6){
+            transform: rotateY(90deg) translateY(-$internalHeight);
+        }
+        }
+        .face.face-#{$i} {
+            @if($i == 1){
+                transform: translateZ($internalHeight);
+            }
+            @else if($i == 2){
+                transform: rotateX(180deg)translateZ($internalHeight);
+            }
+            @else if($i == 3){
+                transform: rotateX(90deg) translateZ($internalHeight);
+            }
+            @else if($i == 4){
+                transform: rotateX(-90deg) translateZ($internalHeight);
+            }
+            @else if($i == 5){
+                transform: rotatey(90deg) translateZ($internalHeight);
+            }
+            @else if($i == 6){
+                transform: rotatey(-90deg) translateZ($internalHeight);
+            }
+        }
+    }
+    .face {
+        $horizontalMargin: -$internalWidth;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: 0 $horizontalMargin;
+        border-top: $internalHeight solid $color;
+        border-left: $internalWidth solid $color;
+        border-right: $internalWidth solid $color;
+        border-bottom: $internalHeight solid $color;
+        backface-visibility: hidden;
+        width: 0px;
+        height: 0px;
+        transform-style: preserve-3d;;
+        counter-increment: steps 1;
+        &:first-child {
+        counter-increment: steps 1;
+        }
+        &:before {
+        content: counter(steps);
+        position: absolute;
+        top: $internalHeight*.001;
+        left: -$internalWidth * .45;
+        color: #fff;
+        text-shadow: 1px 1px 3px #000;
+        font-size: $internalHeight*1.5;
+        text-align: center;
+        line-height: $internalHeight*.001;
+        width: 100%;
+        height: 100%;
+        }
+    }
+    }
 }

@@ -1,29 +1,26 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-d8',
+  selector: 'app-d12',
   standalone: true,
   imports: [],
-  templateUrl: './d8.component.html',
-  styleUrl: './d8.component.scss'
+  templateUrl: './d12.component.html',
+  styleUrl: './d12.component.scss'
 })
-export class D8Component {
+export class D12Component {
   constructor() {}
   @Input() dieNumber : number = 0;
   @Input() rolls : number = 0;
   @Output() getHealth = new EventEmitter<number>();
 
-
-
   die: HTMLElement | undefined;
-  sides: number = 8;
+  sides: number = 12;
   initialSide: number = 1;
-  lastFace: number | undefined;
+  lastFace: number | undefined; 
   timeoutId: any;
   transitionDuration: number = 500;
   animationDuration: number = 1000;
   dieToSelect : string = '';
-
 
   ngOnInit(): void {
     this.dieToSelect = `.die-${this.dieNumber.toString()}`;

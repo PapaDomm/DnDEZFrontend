@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-die',
@@ -10,6 +10,9 @@ import { Component } from '@angular/core';
 export class DieComponent {
 
   constructor() {}
+  @Input() dieNumber : number = 0;
+  @Output() getAbi = new EventEmitter<number>();
+
   die: HTMLElement | undefined;
   sides: number = 20;
   initialSide: number = 1;
@@ -17,22 +20,28 @@ export class DieComponent {
   timeoutId: any;
   transitionDuration: number = 500;
   animationDuration: number = 1000;
+  dieToSelect : string = '';
+  rolls : number = 1;
 
   ngOnInit(): void {
-    this.die = document.querySelector('.die') as HTMLElement;
+    this.dieToSelect = `.die-${this.dieNumber.toString()}`;
+    this.die = document.querySelector(this.dieToSelect) as HTMLElement;
+  }
 
-    document.querySelectorAll('.randomize, .die').forEach(element => {
-      element.addEventListener('click', () => {
-        event?.preventDefault();
-        this.die!.classList.add('rolling');
-        clearTimeout(this.timeoutId);
-
-        this.timeoutId = setTimeout(() => {
-          this.die!.classList.remove('rolling');
-          this.rollTo(this.randomFace().toString());
-        }, this.animationDuration);
-      });
-    });
+  onClick(){
+    if(this.rolls > 0){
+      this.die = document.querySelector(this.dieToSelect) as HTMLElement;
+      event?.preventDefault();
+      this.die!.classList.add('rolling');
+      clearTimeout(this.timeoutId);
+  
+      this.timeoutId = setTimeout(() => {
+        this.die!.classList.remove('rolling');
+        this.rollTo(this.randomFace().toString());
+      }, this.animationDuration);
+      this.rolls -- ;
+    }
+    
   }
 
   randomFace(): number {
@@ -44,7 +53,8 @@ export class DieComponent {
   rollTo(face: string | null): void {
     clearTimeout(this.timeoutId);
 
-    this.die!.setAttribute('data-face', face || '');
+    this.die!.setAttribute('data-face', face || "");
+    this.getAbi.emit(Number(face))
   }
 
 }

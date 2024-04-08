@@ -1,5 +1,5 @@
-<div class="content">
-    <div class="die3">
+<div class="content" (click)="onClick()">
+    <div class="die-{{dieNumber}}">
       <figure class="face face-1"></figure>
       <figure class="face face-2"></figure>
       <figure class="face face-3"></figure>
@@ -8,4 +8,21 @@
       <figure class="face face-6"></figure>
     </div>
   </div>
-  <p style="text-align: center;">{{lastFace}}</p>
+
+  @if(type != "health"){
+    <p style="text-align: center;">@if(statsNums.length < 4 && rolls != 0) {
+        @for (num of statsNums; track $index) 
+        { 
+            {{num}} + 
+        }}
+    
+        @else {
+            {{statsNums[0]}} + {{statsNums[1]}} + {{statsNums[2]}}  = {{statsScore()}}
+          }
+        </p>
+  }
+
+  @else {
+    <p style="text-align: center;">Health: {{lastFace}}</p>
+  }
+  

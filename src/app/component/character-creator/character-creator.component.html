@@ -90,26 +90,102 @@
         <p>Proficiency Bonus: +{{profBonus}}</p>
     </div>
 
-    <div>
-        <p>Points to Spend: {{points}}</p>
-    </div>
-
-    <div>
-        <p>Points Spent: {{pointsSpent}}</p>
-    </div>
-
+    @if(methodType == "pointBuy" || currentLevel > 1){
+        <div>
+            <p>Points to Spend: {{points}}</p>
+        </div>
     
+        <div>
+            <p>Points Spent: {{pointsSpent}}</p>
+        </div>
+    }
+
+    <div>
+        <p>Maximum Health: {{hp}}</p>
+    </div>
+
+    @if(currentLevel > 1){
+        <hr>
+        <h2 style="text-align: center;">Roll for Health</h2>
+        <h3 style="text-align: center;">Rolls left: {{healthRolls}}</h3>
+        @if(hitdie == 6){
+            <app-d6 [dieNumber]="90" [type]="'health'" [rolls]="healthRolls" (getHealth)="addHealth($event)"></app-d6>
+        }
+        @else if (hitdie == 8) 
+        {
+            <app-d8 [dieNumber]="90" [rolls]="healthRolls" (getHealth)="addHealth($event)"></app-d8>
+        }
+        @else if (hitdie == 10) 
+        {
+            <app-d10 [dieNumber]="90" [rolls]="healthRolls" (getHealth)="addHealth($event)"></app-d10>
+        }
+        @else if (hitdie == 12) 
+        {
+            <app-d12 [dieNumber]="90" [rolls]="healthRolls" (getHealth)="addHealth($event)"></app-d12>
+        }
+    }
 
 
     <hr/>
 
     <div class="row">
-        @for (abi of BaseAbilityScores; track $index) 
-        {
-            <div class="col-2">
-                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)" (change)="calcInitiative()">+</button> <button (click)="removeAbilityScore(abi)" (change)="calcInitiative()">-</button>
+        @if(pointsSpent < 27){
+            <h1>Choose your method for Base Ability Scores</h1>
+            <div class="row">
+                <ng-template ngFor let-num [ngForOf]="[].constructor(4)" let-i="index">
+                    <div class="col-3">
+                        @if(methodType == methodArr[i]){
+                            <button (click)="methodType = methodArr[i]"  disabled>{{methodArr[i]}}</button>
+                        }
+                        @else {
+                            <button (click)="methodType = methodArr[i]; methodChange()">{{methodArr[i]}}</button>
+                        }
+                    </div>
+                </ng-template>
             </div>
+            @if(methodType == "pointBuy"){
+                @for (abi of BaseAbilityScores; track $index) 
+                {
+                    <div class="col-2">
+                        <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)" (change)="calcInitiative()">+</button> <button (click)="removeAbilityScore(abi)" (change)="calcInitiative()">-</button>
+                    </div>
+                }
+            }
+
+            @else if (methodType == "diceRoll") 
+            {
+                @for(abi of BaseAbilityScores; track $index){
+                    <div class="col-2">
+                        <div class="row">
+                            <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p>
+                        </div>
+                        
+                        <div class="row">
+                            <app-d6 [dieNumber]="$index" [rolls]="4" (getAbi)="abiChange($event, abi)"></app-d6>
+                        </div>
+                    </div>
+                }
+            }
+            @else if (methodType == "homeBrew") 
+            {
+                @for (abi of BaseAbilityScores; track $index) 
+                {
+                    <div class="col-2">
+                        <div class="row">
+                            <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p>
+                        </div>
+                        
+                        <div class="row">
+                            <app-die [dieNumber]="$index" (getAbi)="abiChange($event, abi)"></app-die>
+                        </div>
+                    </div>
+                }
+            }
+            @else if (methodType == "standardArray"){
+                <p>standard</p>
+            }
         }
+        
         <hr style="margin-top: 1rem;">
     </div>
 
@@ -131,6 +207,29 @@
         }
         <hr style="margin-top: 1rem;">
     </div>
+
+    <div class="row">
+        <div class="col3">
+            <label for="person">Personality</label>
+            <textarea class="form-control" id="person" [(ngModel)]="personality"></textarea>
+        </div>
+
+        <div class="col3">
+            <label for="ideals">Ideals</label>
+            <textarea class="form-control" id="ideals" [(ngModel)]="ideals"></textarea>
+        </div>
+
+        <div class="col3">
+            <label for="bonds">Bonds</label>
+            <textarea class="form-control" id="bonds" [(ngModel)]="bonds"></textarea>
+        </div>
+
+        <div class="col3">
+            <label for="flaws">Flaws</label>
+            <textarea class="form-control" id="flaws" [(ngModel)]="flaws"></textarea>
+        </div>
+    </div>
+
     
 
     <div class="row">

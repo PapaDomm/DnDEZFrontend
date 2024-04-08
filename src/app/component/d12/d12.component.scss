@@ -1,0 +1,152 @@
+$containerWidth: 4rem;
+$containerHeight: $containerWidth;
+
+$upperHeight: $containerWidth*0.48;
+$lowerHeight: $containerWidth*0.12;
+$internalWidth: $upperHeight*0.532;
+
+$transitionDuration: 0.5s;
+$animationDuration: 1s;
+
+$angle: -26deg;
+$sideAngle: 360deg/5;
+$opacity: 0.75;
+$color: rgba(0, 0, 0, $opacity);
+
+$translateZ: 40px;
+$translateY: 0px;
+$translateLowerZ: -$translateZ;
+$translateLowerY: -$translateY - 30px;
+$rotateX: $angle;
+
+@keyframes roll {
+    10% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) }
+    30% { transform: rotateX(120deg) rotateY(240deg) rotateZ(0deg) translateX(.5rem) translateY(.5rem) }
+    50% { transform: rotateX(240deg) rotateY(480deg) rotateZ(0deg) translateX(-.5rem) translateY(-.5rem) }
+    70% { transform: rotateX(360deg) rotateY(720deg) rotateZ(0deg) }
+    90% { transform: rotateX(480deg) rotateY(960deg) rotateZ(0deg) }
+}
+
+body {
+  background: #333;
+}
+
+.content2 {
+  margin: auto auto;
+  position: relative;
+  width: $containerWidth;
+  height: $containerHeight;
+  perspective: 1500px;
+}
+
+@for $i from 0 through 100 {
+    .die-#{$i} {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform $transitionDuration ease-out;
+        cursor: pointer;
+          
+        &.reset {
+          transition: transform 0.1s ease-out;
+          transform: rotateX(0);
+        }
+        
+        &.rolling {
+          animation: roll $animationDuration linear;
+        }
+        
+        @for $i from 1 through 12 {
+          &[data-face="#{$i}"] {
+              @if $i == 1{
+                  transform: rotateX(90deg) rotateY(180deg);
+                  } 
+                  
+              @else if $i == 12{
+              transform: rotateX(-90deg) rotateY(180deg);
+              }
+              @else if $i % 2 == 0 {
+              $angleMultiplier: $i / 2;
+              transform: rotateX(-$angle) rotateY($sideAngle * $angleMultiplier);
+              } @else {
+              $angleMultiplier: ($i + 1) / 2;
+              transform: rotateX(-180deg - $angle) rotateY(-$sideAngle * $angleMultiplier);
+              }
+          }
+      
+          .face.face-#{$i} {
+      
+            @if $i == 1{
+              transform: rotateX(90deg) rotateY(180deg) translateY(-5px) translateZ(30px);
+            } 
+            
+            @else if $i == 12{
+              transform: rotateX(-90deg) rotateY(180deg) translateY(-5px) translateZ(60px);
+            }
+      
+            @else if $i % 2 == 0 {
+              // even sides are in the upper position of the die
+            
+              $angleMultiplier: $i / 2;
+              transform: rotateY($sideAngle * $angleMultiplier) translateZ($translateLowerZ) translateY($translateLowerY) rotateZ(180deg) rotateY(180deg) rotateX($angle);
+                
+            } @else {
+      
+              $angleMultiplier: ($i + 1) / 2;
+              transform: rotateY(-$sideAngle * $angleMultiplier) translateZ($translateZ) translateY($translateY) rotateX($angle);
+      
+            }
+            
+          }
+        }
+        
+        .face {
+          $horizontalMargin: -$internalWidth;
+          
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 50%;
+          top: 0;
+          margin: 0 $horizontalMargin;
+          background: $color;
+          clip-path: polygon( 50% 0, 100% 38%, 90% 100%, 10% 100%, 0 38%);
+          transform-style: preserve-3d;
+          backface-visibility: hidden;
+          
+          counter-increment: steps 1;
+          
+          &:first-child {
+            counter-increment: steps 1;
+          }
+        
+          &:before {
+            content: counter(steps);
+            position: absolute;
+            top: 50%;
+            left: -$internalWidth * 2.5;
+            color: #fff;
+            text-shadow: 1px 1px 3px #000;
+            font-size: $upperHeight*0.6;
+            text-align: center;
+            line-height: $upperHeight * .5;
+            width: 150px;
+            height: 150px;
+          }
+      
+          &:after {
+            content: "";
+            position: absolute;
+            bottom: -($upperHeight + $lowerHeight);
+            left: -$internalWidth;
+            border-left: $internalWidth solid transparent;
+            border-right: $internalWidth solid transparent;
+            border-top: $lowerHeight solid $color;
+            width: 0px;
+            height: 0px;
+          }
+        }
+      }
+      
+}
