@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { RaceDTOModel } from '../../models/race-model';
 import { Classmodel } from '../../models/classmodel';
 import { Skillmodel } from '../../models/skillmodel';
+import { RuleModel } from '../../models/rule-model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,4 +31,7 @@ export class DnDRulesService {
     return this.http.get<Skillmodel[]>(`${this.url}api/DnD/Skills`)
   }
 
+  GetRules():Observable<RuleModel[]> {
+    return this.http.get<RuleModel[]>(`${this.url}api/DnD/Rules`)
+  }
 }

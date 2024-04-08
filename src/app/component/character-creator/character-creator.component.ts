@@ -171,6 +171,8 @@ export class CharacterCreatorComponent {
         this.abilityRaceIncrease(r);
         this.currentRace = r;
       }
+
+
     }
 
     abilityRaceDecrease(){
@@ -436,7 +438,7 @@ export class CharacterCreatorComponent {
       this.getAllAlignments();
       this.getSavingThrowValue();
       this.getSkillValue();
-      
+
       }
 
     getAllRaces(){

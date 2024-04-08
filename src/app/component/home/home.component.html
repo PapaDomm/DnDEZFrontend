@@ -1,18 +1,19 @@
-<!-- @for (race of allRaces; track $index) 
-{ 
-    <div class="card" style="width: 10rem;">
-        <img class="img-card-top" [src]="createImgPath(race)" >
-        <div class="card-body">
-            <div class="card-title"><a routerLink="/CharacterCreator/{{race.index}}">{{race.name}}</a></div>
+<h1 style="text-align: center;"><u>Races</u></h1>
+<div class="test">
+    <div class="scrollContainer">
+        <div class="center">
+            @for (race of allRaces; track $index) 
+            { 
+                <div class="card" style="width: 15rem;">
+                    <img class="img-card-top" [src]="createImgPath(race)" >
+                    <div class="card-body">
+                        <div class="card-title"><a routerLink="/CharacterCreator/{{race.index}}">{{race.name}}</a></div>
+                    </div>
+                </div>
+
+            }
+            <br>
+            <a routerLink="/CharacterCreator"><button>Start Fresh</button></a> 
         </div>
     </div>
-
-}
-
-<a routerLink="/CharacterCreator"><button>Start Fresh</button></a>  -->
-
-<app-die></app-die>
-<app-d10></app-d10>
-<app-d8></app-d8>
-<app-d6></app-d6>
-<app-d12></app-d12>
+</div>

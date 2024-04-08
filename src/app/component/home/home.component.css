@@ -1,0 +1,19 @@
+.center {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow-y: scroll, hidden;
+    max-height: 70vh;
+}
+
+.test {
+    overflow-y: hidden;
+    padding-bottom: 3rem;
+    padding-right: 50rem;
+    padding-left: 50rem;
+}
+
+.scrollContainer {
+    overflow-y: auto;
+    max-height: 90vh; 
+}

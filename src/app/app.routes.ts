@@ -6,6 +6,7 @@ import { CharacterdetailsComponent } from './component/characterdetails/characte
 import { RegisterpageComponent } from './component/registerpage/registerpage.component';
 import { UpdatecharacterComponent } from './component/updatecharacter/updatecharacter.component';
 import { AboutpageComponent } from './component/aboutpage/aboutpage.component';
+import { RulesComponent } from './component/rules/rules.component';
 
 export const routes: Routes = [
     {path: "Home", component: HomeComponent},
@@ -16,5 +17,6 @@ export const routes: Routes = [
     {path: "Register", component: RegisterpageComponent},
     {path: "UpdateCharacter", component: UpdatecharacterComponent},
     {path: "About", component : AboutpageComponent},
+    {path: "Rules", component : RulesComponent},
     {path: "**", component : HomeComponent}
 ]; 
