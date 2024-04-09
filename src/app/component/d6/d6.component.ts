@@ -61,7 +61,7 @@ export class D6Component {
         
         this.getAbi.emit(total)
         return total;
-      }, this.animationDuration)
+      }, 1)
       
     }
     let total = this.statsNums.reduce((lastNum : number, currentNum : number) => {

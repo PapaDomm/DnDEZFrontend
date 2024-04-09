@@ -89,6 +89,8 @@ export class CharacterCreatorComponent {
 
     points : number = 27;
 
+    statsChanged : number = 0;
+
     BaseAbilityScores : CharAbilityScoreDTOModel[] = [
       {index : 'str', value : 8, racialBonus : false},
       {index : 'dex', value : 8, racialBonus : false},
@@ -108,6 +110,15 @@ export class CharacterCreatorComponent {
     ];
 
     totalAbilityScores : CharAbilityScoreDTOModel[] = [
+      {index : 'str', value : 0, racialBonus : false},
+      {index : 'dex', value : 0, racialBonus : false},
+      {index : 'con', value : 0, racialBonus : false},
+      {index : 'int', value : 0, racialBonus : false},
+      {index : 'wis', value : 0, racialBonus : false},
+      {index : 'cha', value : 0, racialBonus : false}
+    ];
+
+    diceScores : CharAbilityScoreDTOModel[] = [
       {index : 'str', value : 0, racialBonus : false},
       {index : 'dex', value : 0, racialBonus : false},
       {index : 'con', value : 0, racialBonus : false},
@@ -195,6 +206,15 @@ export class CharacterCreatorComponent {
       })
     }
 
+    validCharacter(){
+      if((this.points == 0 || this.statsChanged == 6) && (this.healthRolls == 0) && (this.class != '') && (this.race != '') && (this.name != '') && (this.alignment != '') && (this.level != '')){
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+
     methodChange(){
       this.BaseAbilityScores = [
         {index : 'str', value : 8, racialBonus : false},
@@ -204,10 +224,38 @@ export class CharacterCreatorComponent {
         {index : 'wis', value : 8, racialBonus : false},
         {index : 'cha', value : 8, racialBonus : false}
       ];
+
+      this.diceScores = [
+        {index : 'str', value : 0, racialBonus : false},
+        {index : 'dex', value : 0, racialBonus : false},
+        {index : 'con', value : 0, racialBonus : false},
+        {index : 'int', value : 0, racialBonus : false},
+        {index : 'wis', value : 0, racialBonus : false},
+        {index : 'cha', value : 0, racialBonus : false}
+      ];
+
+      this.pointsSpent = 0;
+      if(this.methodType == 'pointBuy'){
+        this.points = 27;
+      }
+      else{
+        this.points = 0;
+      }  
+      this.statsChanged = 0;
+      if(Number(this.level) != 19) {
+        let bonus = Math.floor(Number(this.level) / 4);
+        this.points += bonus * 2;  
+      }
+      else {
+        let bonus = Math.ceil(Number(this.level) / 4);
+        this.points += bonus * 2;  
+      }
     }
 
     abiChange(event : any, abi : CharAbilityScoreDTOModel){
       abi.value = Number(event);
+      this.diceScores.filter(a => a.index == abi.index)[0].value = abi.value;
+      this.statsChanged ++;
       this.getSkillValue();
       this.getSavingThrowValue();
     }
@@ -241,7 +289,7 @@ export class CharacterCreatorComponent {
 
     removeSkillProficiency(skill : string){
       this.BaseSkills.forEach((s) => {
-        if(!this.newCharSkills.some(skills => skills.index = s.index)){
+        if(!this.newCharSkills.some(skills => skills.index == s.index)){
           s.proficient = false;
         }
       })
@@ -282,7 +330,7 @@ export class CharacterCreatorComponent {
 
     addAbilityScore(a : CharAbilityScoreDTOModel){
       
-      if (Number(this.level) < 4 || this.pointsSpent < 27) {
+      if (Number(this.level) < 4 || (this.pointsSpent < 27 && this.methodType == 'pointBuy')) {
         if(a.value < 15 && this.points >= 1)
         {
           if(a.value >=13 && this.points >= 2)
@@ -313,7 +361,7 @@ export class CharacterCreatorComponent {
     }
 
     removeAbilityScore(a : CharAbilityScoreDTOModel){
-      if(this.pointsSpent <= 27 || Number(this.level) < 4) {
+      if((this.pointsSpent <= 27 && this.methodType == 'pointBuy') || Number(this.level) < 4) {
         if(a.value > 8)
       {
         if(a.value > 13)
@@ -331,7 +379,7 @@ export class CharacterCreatorComponent {
       }
       }
       else {
-        if(a.value > 8) {
+        if((a.value > 8 && this.methodType == 'pointBuy') || (this.methodType != 'pointBuy' && this.pointsSpent > 0 && a.value > 0 && this.diceScores.filter(abi => abi.index == a.index)[0].value < a.value)) {
           a.value--;
           this.points++;
           this.pointsSpent--;

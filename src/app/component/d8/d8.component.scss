@@ -42,6 +42,7 @@ $rotateX: $angle;
     }
     &.rolling {
       animation: roll $animationDuration linear;
+      pointer-events: none;
     }
     @for $i from 1 through 8 {
       &[data-face="#{$i}"] {

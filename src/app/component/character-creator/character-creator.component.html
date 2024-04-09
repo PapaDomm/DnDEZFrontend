@@ -147,7 +147,7 @@
                 @for (abi of BaseAbilityScores; track $index) 
                 {
                     <div class="col-2">
-                        <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)" (change)="calcInitiative()">+</button> <button (click)="removeAbilityScore(abi)" (change)="calcInitiative()">-</button>
+                        <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)">+</button> <button (click)="removeAbilityScore(abi)">-</button>
                     </div>
                 }
             }
@@ -157,7 +157,12 @@
                 @for(abi of BaseAbilityScores; track $index){
                     <div class="col-2">
                         <div class="row">
-                            <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p>
+                            @if(currentLevel >= 4){
+                                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)">+</button> <button (click)="removeAbilityScore(abi)">-</button>
+                            }
+                            @else {
+                                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p>
+                            }                            
                         </div>
                         
                         <div class="row">
@@ -172,7 +177,12 @@
                 {
                     <div class="col-2">
                         <div class="row">
-                            <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p>
+                            @if(currentLevel >= 4){
+                                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)">+</button> <button (click)="removeAbilityScore(abi)">-</button>
+                            }
+                            @else {
+                                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p>
+                            }                            
                         </div>
                         
                         <div class="row">
@@ -245,7 +255,7 @@
 
         <div class="col-2 align-self-center">
             @if(isLoggedIn()){
-                @if(points == 0) {
+                @if(validCharacter()) {
                 <button (click)="addCharacter()">Add</button>
                 }
                 @else {
