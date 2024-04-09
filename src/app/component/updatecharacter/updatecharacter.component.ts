@@ -9,11 +9,16 @@ import { FormsModule } from '@angular/forms';
 import { Classmodel, classSkill } from '../../models/classmodel';
 import { Skillmodel } from '../../models/skillmodel';
 import { CommonModule } from '@angular/common';
+import { DieComponent } from '../die/die.component';
+import { D6Component } from '../d6/d6.component';
+import { D8Component } from '../d8/d8.component';
+import { D10Component } from '../d10/d10.component';
+import { D12Component } from '../d12/d12.component';
 
 @Component({
   selector: 'app-updatecharacter',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, DieComponent, D6Component, D8Component, D10Component, D12Component],
   templateUrl: './updatecharacter.component.html',
   styleUrl: './updatecharacter.component.css'
 })
@@ -61,9 +66,31 @@ export class UpdatecharacterComponent {
 
   level : string = '';
 
+  personality : string = '';
+
+  methodType : string = '';
+
+  methodArr : string[] = ["pointBuy", "diceRoll", "homeBrew", "standardArray"];
+
+  ideals : string = '';
+
+  bonds : string = '';
+
+  flaws :string = '';
+
   currentLevel : number = 1;
 
+  hp : number = 0;
+
+  startingHealth : boolean = true;
+
+  hitdie : number = 0;
+
+  healthRolls : number = 0;
+
   points : number = 0;
+
+  statsChanged : number = 0;
 
   BaseAbilityScores : CharAbilityScoreDTOModel[] = [
     {index : 'str', value : 8, racialBonus : false},
@@ -84,6 +111,15 @@ export class UpdatecharacterComponent {
   ];
 
   totalAbilityScores : CharAbilityScoreDTOModel[] = [
+    {index : 'str', value : 0, racialBonus : false},
+    {index : 'dex', value : 0, racialBonus : false},
+    {index : 'con', value : 0, racialBonus : false},
+    {index : 'int', value : 0, racialBonus : false},
+    {index : 'wis', value : 0, racialBonus : false},
+    {index : 'cha', value : 0, racialBonus : false}
+  ];
+
+  diceScores : CharAbilityScoreDTOModel[] = [
     {index : 'str', value : 0, racialBonus : false},
     {index : 'dex', value : 0, racialBonus : false},
     {index : 'con', value : 0, racialBonus : false},
@@ -122,6 +158,10 @@ export class UpdatecharacterComponent {
     {index : 'cha', value : 0, proficient : false}
   ];
 
+  standardArray : number[] = [
+    15, 14, 13, 12, 10, 8
+  ];
+
   fileName : string = '';
 
   jsonAbilitys : string = '';
@@ -129,8 +169,6 @@ export class UpdatecharacterComponent {
   jsonSkills : string = '';
 
   jsonSaves : string = '';
-
-  optionList!: NodeListOf<HTMLOptionElement>;
 
   characterForm : FormData = new FormData();
 
@@ -142,13 +180,21 @@ export class UpdatecharacterComponent {
     this.level = this.displayChar.level.toString();
     this.speed = this.displayChar.speed;
     this.initiative = this.displayChar.initiative;
+    this.hitdie = this.displayChar.hitDie;
+    this.hp = this.displayChar.hp;
+    this.personality = this.displayChar.personality;
+    this.ideals = this.displayChar.ideals;
+    this.flaws = this.displayChar.flaws;
+    this.bonds = this.displayChar.bonds;
     this.profBonus = this.displayChar.profBonus;
+    this.methodType = 'pointBuy';
     if(this.displayChar.level != 19){
       this.pointsSpent = (Math.floor(this.displayChar.level / 4) * 2) + 27;
     }
     else{
       this.pointsSpent = (Math.ceil(this.displayChar.level / 4) * 2) + 27;
     }
+    this.statsChanged = 6;
     this.alignment = this.displayChar.alignment;
     this.currentLevel = this.displayChar.level;
     this.imgUrl = this.createImgPath(this.displayChar.image.imagePath);
@@ -159,6 +205,26 @@ export class UpdatecharacterComponent {
     this.getAllAlignments();
     this.getSavingThrowValue();
     this.getSkillValue();
+    }
+
+
+    valueChosen(num : number){
+      if(this.BaseAbilityScores.some(abi => abi.value == num)){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+
+    changeStandardAbi(a : CharAbilityScoreDTOModel, num : any){
+      if(num != 0){
+        a.value = Number(num);
+        this.statsChanged ++;
+      }
+      else{
+        this.statsChanged --;
+      }
     }
 
   choseRace(r : RaceDTOModel){
@@ -198,6 +264,51 @@ export class UpdatecharacterComponent {
     })
   }
 
+  methodChange(){
+    this.BaseAbilityScores = [
+      {index : 'str', value : 8, racialBonus : false},
+      {index : 'dex', value : 8, racialBonus : false},
+      {index : 'con', value : 8, racialBonus : false},
+      {index : 'int', value : 8, racialBonus : false},
+      {index : 'wis', value : 8, racialBonus : false},
+      {index : 'cha', value : 8, racialBonus : false}
+    ];
+
+    this.diceScores = [
+      {index : 'str', value : 0, racialBonus : false},
+      {index : 'dex', value : 0, racialBonus : false},
+      {index : 'con', value : 0, racialBonus : false},
+      {index : 'int', value : 0, racialBonus : false},
+      {index : 'wis', value : 0, racialBonus : false},
+      {index : 'cha', value : 0, racialBonus : false}
+    ];
+
+    this.pointsSpent = 0;
+    if(this.methodType == 'pointBuy'){
+      this.points = 27;
+    }
+    else{
+      this.points = 0;
+    }  
+    this.statsChanged = 0;
+    if(Number(this.level) != 19) {
+      let bonus = Math.floor(Number(this.level) / 4);
+      this.points += bonus * 2;  
+    }
+    else {
+      let bonus = Math.ceil(Number(this.level) / 4);
+      this.points += bonus * 2;  
+    }
+  }
+
+  abiChange(event : any, abi : CharAbilityScoreDTOModel){
+    abi.value = Number(event);
+    this.diceScores.filter(a => a.index == abi.index)[0].value = abi.value;
+    this.statsChanged ++;
+    this.getSkillValue();
+    this.getSavingThrowValue();
+  }
+
   containsSkill(skill : classSkill):boolean{
     if(this.newCharSkills.some(s => s.index == skill.index)){
       return true;
@@ -228,7 +339,7 @@ export class UpdatecharacterComponent {
 
   removeSkillProficiency(skill : string){
     this.BaseSkills.forEach((s) => {
-      if(!this.newCharSkills.some(skills => skills.index = s.index)){
+      if(!this.newCharSkills.some(skills => skills.index == s.index)){
         s.proficient = false;
       }
     })
@@ -237,8 +348,21 @@ export class UpdatecharacterComponent {
   changeClass(){
     this.currentClass = this.classStats.filter(c => c.index == this.class)[0]
     this.classProfs = this.currentClass.proficiency.choices;
+    this.hitdie = this.currentClass.hit_die;
     this.profsToChoose = this.currentClass.proficiency.choose;
     this.newCharSkills.length = this.profsToChoose;
+
+
+    if(!this.startingHealth){
+      this.hp = this.currentClass.hit_die;
+      this.healthRolls = this.currentLevel - 1;
+    }
+    else{
+      this.startingHealth = false;
+    }
+    
+    
+
     this.newCharSavingThrows.forEach((st) => {
       if(this.currentClass.saving_Throws.some(t => t.index == st.index)){
         st.proficient = true;
@@ -250,6 +374,11 @@ export class UpdatecharacterComponent {
     this.getSavingThrowValue(); 
   }
 
+  addHealth(event : any){
+    this.hp += Number(event);
+    this.healthRolls --;
+  }
+
   totalAbilityScore(abi : CharAbilityScoreDTOModel):number{
     let value = abi.value + this.RaceBonusScores.filter(a => a.index == abi.index)[0].value;
     this.totalAbilityScores.filter(a => a.index == abi.index)[0].racialBonus = this.RaceBonusScores.filter(a => a.index == abi.index)[0].racialBonus;
@@ -258,7 +387,7 @@ export class UpdatecharacterComponent {
 
   addAbilityScore(a : CharAbilityScoreDTOModel){
       
-    if (Number(this.level) < 4 || this.pointsSpent < 27) {
+    if (Number(this.level) < 4 || (this.pointsSpent < 27 && this.methodType == 'pointBuy')) {
       if(a.value < 15 && this.points >= 1)
       {
         if(a.value >=13 && this.points >= 2)
@@ -289,7 +418,7 @@ export class UpdatecharacterComponent {
   }
 
   removeAbilityScore(a : CharAbilityScoreDTOModel){
-    if(this.pointsSpent <= 27 || Number(this.level) < 4) {
+    if((this.pointsSpent <= 27 && this.methodType == 'pointBuy') || Number(this.level) < 4) {
       if(a.value > 8)
     {
       if(a.value > 13)
@@ -307,7 +436,7 @@ export class UpdatecharacterComponent {
     }
     }
     else {
-      if(a.value > 8) {
+      if((a.value > 8 && this.methodType == 'pointBuy') || (this.methodType != 'pointBuy' && this.pointsSpent > 0 && a.value > 0 && this.diceScores.filter(abi => abi.index == a.index)[0].value < a.value)) {
         a.value--;
         this.points++;
         this.pointsSpent--;
@@ -353,13 +482,22 @@ export class UpdatecharacterComponent {
         let bonus = Math.ceil(Number(this.level) / 4) - Math.floor(Number(this.currentLevel) / 4);
         this.points += bonus * 2;  
       }
+
+      this.healthRolls += Number(this.level) - this.currentLevel
       
     }
     else if (this.currentLevel > Number(this.level)) {
-      this.BaseAbilityScores.forEach((abi) => {
-        abi.value = 8;
-      });
-      this.points = 27;
+      if(this.methodType  == 'pointBuy'){
+        this.BaseAbilityScores.forEach((abi) => {
+          abi.value = 8;
+        });
+        this.points = 27;
+      }
+      else{
+        this.points = 0;
+      }
+      this.hp = this.currentClass.hit_die;
+      this.healthRolls = Number(this.level) - 1;
       this.pointsSpent = 0;
       if(Number(this.level) != 19) {
         let bonus = Math.floor(Number(this.level) / 4);
@@ -466,6 +604,12 @@ export class UpdatecharacterComponent {
     this.characterForm.append("ProfBonus", this.profBonus.toString());
     this.characterForm.append("Initiative", this.calcInitiative().toString());
     this.characterForm.append("Alignment", this.alignment);
+    this.characterForm.append("Personality", this.personality);
+    this.characterForm.append("Ideals", this.ideals);
+    this.characterForm.append("Bonds", this.bonds);
+    this.characterForm.append("Flaws", this.flaws);
+    this.characterForm.append("HitDie", this.hitdie.toString());
+    this.characterForm.append("Hp", this.hp.toString());
 
     this.jsonAbilitys = JSON.stringify(this.totalAbilityScores);
     this.jsonSkills = JSON.stringify(this.BaseSkills);
@@ -478,6 +622,15 @@ export class UpdatecharacterComponent {
     this.characterService.updateCharacter(this.characterForm, this.displayChar.characterId).subscribe((response) => {
       this.router.navigate([`/Profile/${this.activeUser().userId}`])
     })
+  }
+
+  validCharacter(){
+    if(((this.points == 0 && (this.methodType == 'pointBuy' || this.currentLevel >= 4)) || (this.statsChanged == 6 && this.currentLevel < 4)) && (this.healthRolls == 0) && (this.class != '') && (this.race != '') && (this.name != '') && (this.alignment != '') && (this.level != '')){
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   onFileChanged(event : any){

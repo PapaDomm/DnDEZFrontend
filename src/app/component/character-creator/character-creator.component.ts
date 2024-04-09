@@ -157,6 +157,10 @@ export class CharacterCreatorComponent {
       {index : 'cha', value : 0, proficient : false}
     ];
 
+    standardArray : number[] = [
+      15, 14, 13, 12, 10, 8
+    ];
+
     fileName : string = '';
 
     jsonAbilitys : string = '';
@@ -186,6 +190,25 @@ export class CharacterCreatorComponent {
 
     }
 
+    valueChosen(num : number){
+      if(this.BaseAbilityScores.some(abi => abi.value == num)){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+
+    changeStandardAbi(a : CharAbilityScoreDTOModel, num : any){
+      if(num != 0){
+        a.value = Number(num);
+        this.statsChanged ++;
+      }
+      else{
+        this.statsChanged --;
+      }
+    }
+
     abilityRaceDecrease(){
       this.newCharacterAbilityScores.forEach((abi) => {
         if(this.currentRace.ability_bonuses.some(a => a.ability_score.index == abi.index)){
@@ -207,23 +230,37 @@ export class CharacterCreatorComponent {
     }
 
     validCharacter(){
-      if((this.points == 0 || this.statsChanged == 6) && (this.healthRolls == 0) && (this.class != '') && (this.race != '') && (this.name != '') && (this.alignment != '') && (this.level != '')){
+      if(((this.points == 0 && (this.methodType == 'pointBuy' || this.currentLevel >= 4)) || (this.statsChanged == 6 && this.currentLevel < 4)) && (this.healthRolls == 0) && (this.class != '') && (this.race != '') && (this.name != '') && (this.alignment != '') && (this.level != '')){
         return true;
       }
       else {
         return false;
       }
     }
+  
 
     methodChange(){
-      this.BaseAbilityScores = [
-        {index : 'str', value : 8, racialBonus : false},
-        {index : 'dex', value : 8, racialBonus : false},
-        {index : 'con', value : 8, racialBonus : false},
-        {index : 'int', value : 8, racialBonus : false},
-        {index : 'wis', value : 8, racialBonus : false},
-        {index : 'cha', value : 8, racialBonus : false}
-      ];
+      if(this.methodType != 'standardArray'){
+        this.BaseAbilityScores = [
+          {index : 'str', value : 8, racialBonus : false},
+          {index : 'dex', value : 8, racialBonus : false},
+          {index : 'con', value : 8, racialBonus : false},
+          {index : 'int', value : 8, racialBonus : false},
+          {index : 'wis', value : 8, racialBonus : false},
+          {index : 'cha', value : 8, racialBonus : false}
+        ];
+      }
+      else{
+        this.BaseAbilityScores = [
+          {index : 'str', value : 0, racialBonus : false},
+          {index : 'dex', value : 0, racialBonus : false},
+          {index : 'con', value : 0, racialBonus : false},
+          {index : 'int', value : 0, racialBonus : false},
+          {index : 'wis', value : 0, racialBonus : false},
+          {index : 'cha', value : 0, racialBonus : false}
+        ];
+      }
+      
 
       this.diceScores = [
         {index : 'str', value : 0, racialBonus : false},
@@ -430,12 +467,17 @@ export class CharacterCreatorComponent {
         
       }
       else if (this.currentLevel > Number(this.level)) {
-        this.BaseAbilityScores.forEach((abi) => {
-          abi.value = 8;
-        });
+        if(this.methodType  == 'pointBuy'){
+          this.BaseAbilityScores.forEach((abi) => {
+            abi.value = 8;
+          });
+          this.points = 27;
+        }
+        else{
+          this.points = 0;
+        }
         this.hp = this.currentClass.hit_die;
         this.healthRolls = Number(this.level) - 1;
-        this.points = 27;
         this.pointsSpent = 0;
         if(Number(this.level) != 19) {
           let bonus = Math.floor(Number(this.level) / 4);
@@ -447,10 +489,10 @@ export class CharacterCreatorComponent {
         }
       }
       this.currentLevel = Number(this.level);
-
+  
       this.getSkillValue();
       this.getSavingThrowValue();
-
+  
     }
 
     getSkillValue(){
@@ -538,9 +580,6 @@ export class CharacterCreatorComponent {
       this.characterForm.append("Flaws", this.flaws);
       this.characterForm.append("HitDie", this.hitdie.toString());
       this.characterForm.append("Hp", this.hp.toString());
-      // for(let i = 0; i < this.totalAbilityScores.length; i++){
-      //   this.jsonAbilitys += JSON.stringify(this.totalAbilityScores[i]);
-      // }
 
       this.jsonAbilitys = JSON.stringify(this.totalAbilityScores);
       this.jsonSkills = JSON.stringify(this.BaseSkills);

@@ -192,7 +192,25 @@
                 }
             }
             @else if (methodType == "standardArray"){
-                <p>standard</p>
+                @for (abi of BaseAbilityScores; track $index) {
+                    @if(currentLevel >= 4){
+                        <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)">+</button> <button (click)="removeAbilityScore(abi)">-</button>
+                    }
+                    @else {
+                        <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p>
+                    }  
+                    <select #scores$index style="margin-top: .2rem; margin-bottom: 1rem;" class="form-control" (change)="changeStandardAbi(abi, scores$index.value)">
+                        <option value="{{0}}"></option>
+                    @for(nums of standardArray; track $index){
+                        @if(valueChosen(nums) && abi.value != nums){
+                            <option value="{{nums}}" disabled>{{nums}}</option>
+                        }
+                        @else {
+                            <option value="{{nums}}">{{nums}}</option>
+                        }
+                    }
+                    </select>
+                }   
             }
         }
         
