@@ -1,5 +1,5 @@
 <h1 style="text-align: center;"><u>Rules</u></h1>
-@for(rule of rules; track $index) {
+@for(rule of charRules; track $index) {
   <p class="d-inline-flex gap-1">
     <a class="btn btn-secondary" data-bs-toggle="collapse" href="#{{$index}}" role="button" aria-expanded="false">
       {{rule.name}}
@@ -7,7 +7,7 @@
   </p>
   <div class="collapse" id="{{$index}}">
     <div class="card card-body">
-      {{rule.description}}
+      <p style="white-space: pre-line;">{{rule.desc}}</p>
     </div>
   </div>
   <br>
