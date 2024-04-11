@@ -1,283 +1,576 @@
-<div class="container">
+<div class="container-fluid">
 
+    <!-- Basic Character Information -->
     <div class="row">
-        <label for="name">Name</label>
-        <input id="name" class="form-control" type="text" [(ngModel)]="name">
-    </div>
 
-    <div class="row">
-        <label for="race">Race</label>
-        <select id="race" class="form-control" [(ngModel)]="race" (change)="changeRace()" (change)="calcSpeed()">
-            @for(race of raceStats; track $index){
-                <option value="{{race.index}}">{{race.name}}</option>
-            }
-        </select>
-    </div>
-
-    <div class="row">
-        <label for="class">Class</label>
-        <select id="class" class="form-control" [(ngModel)]="class" (change)="changeClass()">
-            @for(class of classStats; track $index){
-                <option value="{{class.index}}">{{class.name}}</option>
-            }
-        </select>
-    </div>
-
-    <div class="row">
-        <label for="level">Level</label>
-        <select id="level" class="form-control" [(ngModel)]="level" (change)="onLevel()">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
-            <option value="16">16</option>
-            <option value="17">17</option>
-            <option value="18">18</option>
-            <option value="19">19</option>
-            <option value="20">20</option>
-        </select>
-    </div>
-
-    <div class="row">
-        <label for="alignment">Alignment</label>
-        <select id="alignment" class="form-control" [(ngModel)]="alignment">
-            @for(alignment of alignmentArr; track $index){
-                <option value="{{alignment}}">{{alignment}}</option>
-            }
-        </select>
-    </div>
-
-    <div class="row">
-        <ng-template ngFor let-num [ngForOf]="[].constructor(profsToChoose)" let-i="index">
-            <div>
-                <label for="prof{{i}}" class="margin-top: 1rem">Skill Proficiency {{i + 1}}</label>
-                <select #prof$index id="prof{{i}}" style="margin-top: .2rem; margin-bottom: 1rem;" class="form-control" [(ngModel)]="newCharSkills[i]" (change)="addNewSkills(i)" >
-                    @for(skills of classProfs; track $index){
-                        @if(containsSkill(skills) && newCharSkills[i] != skills){
-                            <option [ngValue]="skills" disabled>{{skills.name}}</option>
-                        }
-                        @else {
-                            <option [ngValue]="skills">{{skills.name}}</option>
-                        }
-                    }
-                </select>
+        <div class="col-2">
+            <div class="row justify-content-center">
+                @if(imgUrl != undefined){
+                    <img [src]="imgUrl" style="border-radius: 100%; width: 10rem; height: 10rem;">
+                }
+                <p style="text-align: center; font-weight: 500;">Character Photo</p>
             </div>
-        </ng-template>
-    </div>
 
-    <br/>
-
-    <div>
-        <p>Initiative: @if(calcInitiative() > 0){+}{{calcInitiative()}}</p>
-    </div>
-    
-    <div>
-        <p>Speed: {{this.currentRace.speed}}FT</p>
-    </div>
-
-    <div>
-        <p>Proficiency Bonus: +{{profBonus}}</p>
-    </div>
-
-    @if(methodType == "pointBuy" || currentLevel > 1){
-        <div>
-            <p>Points to Spend: {{points}}</p>
+            <div class="row justify-content-center" style="margin-left: 6rem; margin-top: 2rem;">
+                <input type="file" (change)="onFileChanged($event)">
+            </div>
+            
         </div>
-    
-        <div>
-            <p>Points Spent: {{pointsSpent}}</p>
+
+        <div class="col-4 align-self-center">
+            <div class="form-floating">
+                <input id="name" class="form-control" type="text" [(ngModel)]="name" placeholder="Character Name">
+                <label for="name">Character Name</label>
+            </div>            
         </div>
-    }
-
-    <div>
-        <p>Maximum Health: {{hp}}</p>
-    </div>
-
-    @if(currentLevel > 1){
-        <hr>
-        <h2 style="text-align: center;">Roll for Health</h2>
-        <h3 style="text-align: center;">Rolls left: {{healthRolls}}</h3>
-        @if(hitdie == 6){
-            <app-d6 [dieNumber]="90" [type]="'health'" [rolls]="healthRolls" (getHealth)="addHealth($event)"></app-d6>
-        }
-        @else if (hitdie == 8) 
-        {
-            <app-d8 [dieNumber]="90" [rolls]="healthRolls" (getHealth)="addHealth($event)"></app-d8>
-        }
-        @else if (hitdie == 10) 
-        {
-            <app-d10 [dieNumber]="90" [rolls]="healthRolls" (getHealth)="addHealth($event)"></app-d10>
-        }
-        @else if (hitdie == 12) 
-        {
-            <app-d12 [dieNumber]="90" [rolls]="healthRolls" (getHealth)="addHealth($event)"></app-d12>
-        }
-    }
-
-
-    <hr/>
-
-    <div class="row">
-        @if(true){
-            <h1>Choose your method for Base Ability Scores</h1>
+        
+        <div class="col-6 align-self-center">
             <div class="row">
+
+                <div class="col-4">
+                    <label for="race">Race</label>
+                    <select id="race" class="form-control" [(ngModel)]="race" (change)="changeRace()" (change)="calcSpeed()">
+                        @for(race of raceStats; track $index){
+                            <option value="{{race.index}}">{{race.name}}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-4">
+                    <label for="class">Class</label>
+                    <select id="class" class="form-control" [(ngModel)]="class" (change)="changeClass()">
+                        @for(class of classStats; track $index){
+                            <option value="{{class.index}}">{{class.name}}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-4">
+                    <label for="level">Level</label>
+                    <select id="level" class="form-control" [(ngModel)]="level" (change)="onLevel()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                    </select>
+                </div>
+                
+            </div>
+
+            <div class="row" style="margin-top: 1rem;">
+
+                <div class="col-4 offset-2">
+                    <label for="alignment">Alignment</label>
+                    <select id="alignment" class="form-control" [(ngModel)]="alignment">
+                        @for(alignment of alignmentArr; track $index){
+                            <option value="{{alignment}}">{{alignment}}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-4 align-self-center">
+                    @if(isLoggedIn()){
+                        <label for="userName">Player Name</label>
+                        <select id="userName" class="form-control" disabled>
+                            <option>{{activeUser().firstName}} {{activeUser().lastName}}</option>
+                        </select>
+                    }
+                    @else {
+                        <p style="padding-top: 1.5rem; margin-left: 2rem; font-size: 1.2rem; font-weight: 500;">Please Login/Register to Save Character</p>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+        <hr style="margin-top: 2rem;">
+
+    </div>
+
+    <!-- Main Character Sheet -->
+    <div class="row">
+
+        <!-- Choosing Ability Methods -->
+        <div class="row text-center">
+            <div class="row" style="margin-bottom: 2rem; margin-top: 1rem;">
                 <ng-template ngFor let-num [ngForOf]="[].constructor(4)" let-i="index">
                     <div class="col-3">
                         @if(methodType == methodArr[i]){
-                            <button (click)="methodType = methodArr[i]"  disabled>{{methodArr[i]}}</button>
+                            <button class="methodButtons" (click)="methodType = methodArr[i]"  disabled>{{returnName(methodArr[i])}}</button>
                         }
                         @else {
-                            <button (click)="methodType = methodArr[i]; methodChange()">{{methodArr[i]}}</button>
+                            <button class="methodButtons" (click)="methodType = methodArr[i]; methodChange()">{{returnName(methodArr[i])}}</button>
                         }
                     </div>
                 </ng-template>
             </div>
-            @if(methodType == "pointBuy"){
-                @for (abi of BaseAbilityScores; track $index) 
-                {
-                    <div class="col-2">
-                        <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)">+</button> <button (click)="removeAbilityScore(abi)">-</button>
-                    </div>
-                }
-            }
+            
+        </div>
 
-            @else if (methodType == "diceRoll") 
-            {
-                @for(abi of BaseAbilityScores; track $index){
-                    <div class="col-2">
-                        <div class="row">
-                            @if(currentLevel >= 4){
-                                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)">+</button> <button (click)="removeAbilityScore(abi)">-</button>
+        <hr style="margin-bottom: 0;">
+
+        <!-- Ability Modifiers -->
+        <div class="col-2" style="border-right: 1px solid rgba(255, 0, 0, 0.300);">
+            <div style="margin-bottom: 1rem; margin-top: 1rem;">
+                <h1 style="text-align: center; margin-bottom: 2rem;">Ability Scores</h1>
+                @if(methodType == "pointBuy"){
+                    @for (abi of BaseAbilityScores; track $index) 
+                    {
+
+                            @if(isProficient(abi)){
+                                <div class="row profAbilityBox">
+                                    <p style="font-weight: bold;">{{abi.name}}</p>
+                                    <p style="margin-bottom: 2rem; margin-top: 1rem;">{{totalAbilityScore(abi)}}</p>
+                                </div>
                             }
                             @else {
-                                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p>
-                            }                            
-                        </div>
-                        
-                        <div class="row">
-                            <app-d6 [dieNumber]="$index" [rolls]="4" (getAbi)="abiChange($event, abi)"></app-d6>
-                        </div>
-                    </div>
-                }
-            }
-            @else if (methodType == "homeBrew") 
-            {
-                @for (abi of BaseAbilityScores; track $index) 
-                {
-                    <div class="col-2">
-                        <div class="row">
-                            @if(currentLevel >= 4){
-                                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)">+</button> <button (click)="removeAbilityScore(abi)">-</button>
+                                <div class="row abilityBox">
+                                    <p>{{abi.name}}</p>
+                                    <p style="margin-bottom: 2rem; margin-top: 1rem;">{{totalAbilityScore(abi)}}</p>
+                                </div>
+                            }
+                            
+                            @if(isProficient(abi)){
+                                <div class="row profModifierBox">
+                                    <p style="padding: 0; margin: 0;">@if(getAbiModifier(abi) > 0 ){+}{{getAbiModifier(abi)}}</p>
+                                </div>
                             }
                             @else {
-                                <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p>
-                            }                            
-                        </div>
-                        
-                        <div class="row">
-                            <app-die [dieNumber]="$index" (getAbi)="abiChange($event, abi)"></app-die>
-                        </div>
-                    </div>
-                }
-            }
-            @else if (methodType == "standardArray"){
-                @for (abi of BaseAbilityScores; track $index) {
-                    @if(currentLevel >= 4){
-                        <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p> <button (click)="addAbilityScore(abi)">+</button> <button (click)="removeAbilityScore(abi)">-</button>
+                                <div class="row modifierBox">
+                                    <p style="padding: 0; margin: 0;">@if(getAbiModifier(abi) > 0 ){+}{{getAbiModifier(abi)}}</p>
+                                </div>
+                            }
+                            
+
+                            <div class="row buttonBox">
+                                <div class="col-2 offset-4 justify-content-center">
+                                    <button class="abiButton" (click)="addAbilityScore(abi)">+</button> 
+                                </div>
+
+                                <div class="col-2 justify-content-center" style="margin-left: 1rem;">
+                                    <button class="abiButton" (click)="removeAbilityScore(abi)">-</button>
+                                </div>
+                            </div>
                     }
-                    @else {
-                        <p>{{abi.index}}- {{abi.value}} + {{showabi(abi)}} = {{totalAbilityScore(abi)}}</p>
-                    }  
-                    <select #scores$index style="margin-top: .2rem; margin-bottom: 1rem;" class="form-control" (change)="changeStandardAbi(abi, scores$index.value)">
-                        <option value="{{0}}"></option>
-                    @for(nums of standardArray; track $index){
-                        @if(valueChosen(nums) && abi.value != nums){
-                            <option value="{{nums}}" disabled>{{nums}}</option>
+                }
+    
+                @else if (methodType == "diceRoll") 
+                {
+                    @for(abi of BaseAbilityScores; track $index){
+                        @if(isProficient(abi)){
+                            <div class="row profAbilityBox">
+                                <p style="font-weight: bold;">{{abi.name}}</p>
+                                <p style="margin-bottom: 2rem; margin-top: 1rem;">{{totalAbilityScore(abi)}}</p>
+                            </div>
                         }
                         @else {
-                            <option value="{{nums}}">{{nums}}</option>
+                            <div class="row abilityBox">
+                                <p>{{abi.name}}</p>
+                                <p style="margin-bottom: 2rem; margin-top: 1rem;">{{totalAbilityScore(abi)}}</p>
+                            </div>
                         }
+
+                        @if(isProficient(abi)){
+                            <div class="row profModifierBox">
+                                <p style="padding: 0; margin: 0;">@if(getAbiModifier(abi) > 0 ){+}{{getAbiModifier(abi)}}</p>
+                            </div>
+                        }
+                        @else {
+                            <div class="row modifierBox">
+                                <p style="padding: 0; margin: 0;">@if(getAbiModifier(abi) > 0 ){+}{{getAbiModifier(abi)}}</p>
+                            </div>
+                        }
+
+                        @if(currentLevel >= 4){
+                            <div class="row buttonBox" style="margin-bottom: 0;">
+                                <div class="col-2 offset-4 justify-content-center">
+                                    <button class="abiButton" (click)="addAbilityScore(abi)">+</button> 
+                                </div>
+
+                                <div class="col-2 justify-content-center" style="margin-left: 1rem;">
+                                    <button class="abiButton" (click)="removeAbilityScore(abi)">-</button>
+                                </div>
+                            </div>
+                        }
+                            
+                            <div class="row">
+                                <app-d6 [dieNumber]="$index" [rolls]="4" (getAbi)="abiChange($event, abi)"></app-d6>
+                            </div>
+
                     }
-                    </select>
-                }   
-            }
+                }
+                @else if (methodType == "homeBrew") 
+                {
+                    @for (abi of BaseAbilityScores; track $index) 
+                    {
+                        @if(isProficient(abi)){
+                            <div class="row profAbilityBox">
+                                <p style="font-weight: bold;">{{abi.name}}</p>
+                                <p style="margin-bottom: 2rem; margin-top: 1rem;">{{totalAbilityScore(abi)}}</p>
+                            </div>
+                        }
+                        @else {
+                            <div class="row abilityBox">
+                                <p>{{abi.name}}</p>
+                                <p style="margin-bottom: 2rem; margin-top: 1rem;">{{totalAbilityScore(abi)}}</p>
+                            </div>
+                        }
+
+                        @if(isProficient(abi)){
+                            <div class="row profModifierBox">
+                                <p style="padding: 0; margin: 0;">@if(getAbiModifier(abi) > 0 ){+}{{getAbiModifier(abi)}}</p>
+                            </div>
+                        }
+                        @else {
+                            <div class="row modifierBox">
+                                <p style="padding: 0; margin: 0;">@if(getAbiModifier(abi) > 0 ){+}{{getAbiModifier(abi)}}</p>
+                            </div>
+                        }
+
+                        @if(currentLevel >= 4){
+                            <div class="row buttonBox" style="margin-bottom: 0;">
+                                <div class="col-2 offset-4 justify-content-center">
+                                    <button class="abiButton" (click)="addAbilityScore(abi)">+</button> 
+                                </div>
+
+                                <div class="col-2 justify-content-center" style="margin-left: 1rem;">
+                                    <button class="abiButton" (click)="removeAbilityScore(abi)">-</button>
+                                </div>
+                            </div>
+                        }
+                            
+                            <div class="row">
+                                <app-die [dieNumber]="$index" (getAbi)="abiChange($event, abi)"></app-die>
+                            </div>
+                    }
+                }
+                @else if (methodType == "standardArray"){
+                    @for (abi of BaseAbilityScores; track $index) {
+                        @if(isProficient(abi)){
+                            <div class="row profAbilityBox">
+                                <p style="font-weight: bold;">{{abi.name}}</p>
+                                <p style="margin-bottom: 2rem; margin-top: 1rem;">{{totalAbilityScore(abi)}}</p>
+                            </div>
+                        }
+                        @else {
+                            <div class="row abilityBox">
+                                <p>{{abi.name}}</p>
+                                <p style="margin-bottom: 2rem; margin-top: 1rem;">{{totalAbilityScore(abi)}}</p>
+                            </div>
+                        }
+                        
+                        
+                        @if(isProficient(abi)){
+                            <div class="row profModifierBox">
+                                <p style="padding: 0; margin: 0;">@if(getAbiModifier(abi) > 0 ){+}{{getAbiModifier(abi)}}</p>
+                            </div>
+                        }
+                        @else {
+                            <div class="row modifierBox">
+                                <p style="padding: 0; margin: 0;">@if(getAbiModifier(abi) > 0 ){+}{{getAbiModifier(abi)}}</p>
+                            </div>
+                        }
+
+                        @if(currentLevel >= 4){
+                            <div class="row buttonBox" style="margin-bottom: 0;">
+                                <div class="col-2 offset-4 justify-content-center">
+                                    <button class="abiButton" (click)="addAbilityScore(abi)">+</button> 
+                                </div>
+
+                                <div class="col-2 justify-content-center" style="margin-left: 1rem;">
+                                    <button class="abiButton" (click)="removeAbilityScore(abi)">-</button>
+                                </div>
+                            </div>
+                        }
+                        
+                        <div class="col-2 offset-5" style="margin-top: 1.5rem;">
+                            <select #scores$index style="margin-top: .2rem; margin-bottom: 1rem; text-align: center;" class="form-control" (change)="changeStandardAbi(abi, scores$index.value)">
+                                <option value="{{0}}"></option>
+                            @for(nums of standardArray; track $index){
+                                @if(valueChosen(nums) && abi.value != nums){
+                                    <option value="{{nums}}" disabled>{{nums}}</option>
+                                }
+                                @else {
+                                    <option value="{{nums}}">{{nums}}</option>
+                                }
+                            }
+                            </select>
+                        </div>
+                        
+                    }   
+                }
+
+                
+        
+    @if(methodType == "pointBuy" || currentLevel > 1){
+        <div class="row pointsBox text-center">
+            <div class="row">
+                <p>Points to Spend: {{points}}</p>
+            </div>
+        
+            <div class="row">
+                <p>Points Spent: {{pointsSpent}}</p>
+            </div>
+        </div>
+    }
+            </div>
+        </div>
+
+        <!-- Prof Bonus and Saving Throws and Skills -->
+        <div class="col-3" style="border-right: 1px solid  rgba(255, 0, 0, 0.300);">
+
+            <div class="row justify-content-center" style="margin-bottom: 2rem; margin-top: 1rem;">
+                <div class="col-2 profBubble">
+                    <p style="padding-top: .6rem; font-weight: bold;">+{{profBonus}}</p>
+                </div>
+
+                <div class="col-6 profBox">
+                    <h5>Proficiency Bonus</h5>
+                </div>
+            </div>
+
+            <div class="row stBox">
+                <h2 style="text-align: center;">Saving Throws</h2>
+                <hr style="color: red;">
+                @for(st of newCharSavingThrows; track $index){
+                    <div class="row" style="margin-bottom: .5rem; font-size: 1.2rem;">
+
+                        @if(st.proficient == true){
+                            <div class="col-1 profCircleFill"></div>
+                        }
+                        @else {
+                            <div class="col-1 profCircle"></div>
+                        }
+                        
+
+                        <div class="col-1" style="margin-left: 1rem; margin-right: 1rem;">
+                           <p style="text-decoration: underline;">&nbsp;@if(st.value > 0){+}{{st.value}}&nbsp;</p>
+                        </div>
+
+                        <div class="col-2 align-self-center">
+                            <p>{{st.name}}</p>
+                        </div>
+                    </div>
+                   
+                }
+            </div>
+
+            <div class="row skillsBox">
+                <h2 style="text-align: center;">Skills</h2>
+                <hr style="color: red;">
+                @for (skill of BaseSkills; track $index) 
+                {
+                    <div class="row" style="margin-bottom: 1rem; font-size: 1.05rem;">
+                        @if(skill.proficient == true){
+                            <div class="col-1 profCircleFill"></div>
+                        }
+                        @else {
+                            <div class="col-1 profCircle"></div>
+                        }
+                        <div class="col-1" style="margin-left: 1rem;">
+                            <p style="text-decoration: underline;">&nbsp;@if(skill.value > 0){+}{{skill.value}}&nbsp;</p>
+                        </div>
+
+                        <div class="col-9 align-self-center">
+                            <p>{{skill.name}}&nbsp; <span style="color: rgba(0, 0, 0, 0.712); font-size: .8rem;">( {{skill.abiIndex}} )</span></p>
+                        </div>
+                        
+                    </div>
+                }
+            </div>
+
+        </div>
+
+
+        <!-- Initiative, Speed, HitDie, HP, And Choosing Skills? -->
+        <div class="col-4" style="border-right: 1px solid rgba(255, 0, 0, 0.300);">
+
+            <div class="row">
+
+                <div class="col-6 initBox">
+                    <div class="row">
+                        <p style="font-size: 1.2rem; font-weight: 500;">Initiative</p>
+                        <hr style="color: red; margin: 0;">
+                    </div>
+
+                    <div class="row align-self-center" style="padding-top: 1rem;">
+                       <p>@if(calcInitiative() > 0){+}{{calcInitiative()}}</p>
+                    </div>                     
+                </div>
+
+                <div class="col-6 speedBox">
+                    <div class="row">
+                        <p style="font-size: 1.2rem; font-weight: 500;">Speed</p>
+                        <hr style="color: red; margin: 0;">
+                    </div>
+
+                    <div class="row align-self-center" style="padding-top: 1rem;">
+                       <p>{{this.speed}}FT</p>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="hpBox">
+                    <div class="row">
+                        <h2>Maximum HP</h2>
+                        <hr style="color: red;">
+                    </div>
+
+                    <div class="row">
+                        <h3>{{hp}}</h3>
+                    </div>
+                </div>
+                
+                
+            </div>
+
+
+            <div class="row">
+                <div class="hitDieBox">
+                    <div class="row">
+                        <p style="margin-left: 1rem; text-decoration: underline; color: rgba(0, 0, 0, 0.678);">Total: {{currentLevel}}</p>
+                    </div>
+
+                    <div class="row text-center">
+                        <h2>Hit Die</h2>
+                        <hr style="color: red;">
+                    </div>
+
+                    <div class="row text-center">
+                        <h3>1d{{hitdie}}</h3>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row diceRollBox">
+                <h2 style="text-align: center;">Roll for Health</h2>
+                <hr style="color: red;">
+                <h3 style="text-align: center;">Rolls left: {{healthRolls}}</h3>
+                @if(hitdie == 6){
+                    <app-d6 [dieNumber]="90" [type]="'health'" [rolls]="healthRolls" (getHealth)="addHealth($event)"></app-d6>
+                }
+                @else if (hitdie == 8) 
+                {
+                    <app-d8 [dieNumber]="90" [rolls]="healthRolls" (getHealth)="addHealth($event)"></app-d8>
+                }
+                @else if (hitdie == 10) 
+                {
+                    <app-d10 [dieNumber]="90" [rolls]="healthRolls" (getHealth)="addHealth($event)"></app-d10>
+                }
+                @else if (hitdie == 12) 
+                {
+                    <app-d12 [dieNumber]="90" [rolls]="healthRolls" (getHealth)="addHealth($event)"></app-d12>
+                }
+            </div>
+
+            <div class="row skillsChoiceBox">
+                <h2>Choose your Skills</h2>
+                <hr style="color: red;">
+                @if(class == ''){
+                    <ng-template ngFor let-num [ngForOf]="[].constructor(4)" let-i="index">
+                        <div>
+                            <label for="prof{{i}}" class="margin-top: 1rem">Skill Proficiency {{i + 1}}</label>
+                            <select #prof$index id="prof{{i}}" style="margin-top: .2rem; margin-bottom: 1rem;" class="form-control" [(ngModel)]="newCharSkills[i]" (change)="addNewSkills(i)" >
+                                @for(skills of StartingBaseSkills; track $index){
+                                    @if(containsSkill(skills) && newCharSkills[i] != skills){
+                                        <option [ngValue]="skills" disabled>{{skills.name}}</option>
+                                    }
+                                    @else {
+                                        <option [ngValue]="skills">{{skills.name}}</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </ng-template>
+                }
+
+                @else {
+                    <ng-template ngFor let-num [ngForOf]="[].constructor(profsToChoose)" let-i="index">
+                        <div>
+                            <label for="prof{{i}}" class="margin-top: 1rem">Skill Proficiency {{i + 1}}</label>
+                            <select #prof$index id="prof{{i}}" style="margin-top: .2rem; margin-bottom: 1rem;" class="form-control" [(ngModel)]="newCharSkills[i]" (change)="addNewSkills(i)" >
+                                @for(skills of classProfs; track $index){
+                                    @if(containsSkill(skills) && newCharSkills[i] != skills){
+                                        <option [ngValue]="skills" disabled>{{skills.name}}</option>
+                                    }
+                                    @else {
+                                        <option [ngValue]="skills">{{skills.name}}</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </ng-template>
+                }
+            </div>
+
+        </div>
+
+        <!-- Roleplaying Traits -->
+        <div class="col-3">
+
+            <div class="row traitsBox">
+                <label for="person" style="font-size: 1.6rem; padding-bottom: .5rem;">Personality</label>
+                <hr style="color: red;">
+                <textarea class="form-control textBox" id="person" rows="5" cols="30" maxlength="500" [(ngModel)]="personality"></textarea>
+            </div>
+
+            <div class="row traitsBox">
+                <label for="ideals" style="font-size: 1.6rem; padding-bottom: .5rem;">Ideals</label>
+                <hr style="color: red;">
+                <textarea class="form-control textBox" id="ideals" rows="5" cols="30" maxlength="500" [(ngModel)]="ideals"></textarea>
+            </div>
+
+            <div class="row traitsBox">
+                <label for="bonds" style="font-size: 1.6rem; padding-bottom: .5rem;">Bonds</label>
+                <hr style="color: red;">
+                <textarea class="form-control textBox" id="bonds" rows="5" cols="30" maxlength="500" [(ngModel)]="bonds"></textarea>
+            </div>
+
+            <div class="row traitsBox">
+                <label for="flaws" style="font-size: 1.6rem; padding-bottom: .5rem;">Flaws</label>
+                <hr style="color: red;">
+                <textarea class="form-control textBox" id="flaws" rows="5" cols="30" maxlength="500" [(ngModel)]="flaws"></textarea>
+            </div>
+
+        </div>
+
+        @if(isLoggedIn()){
+            <hr>
         }
         
-        <hr style="margin-top: 1rem;">
-    </div>
 
-    <div class="row">
-        @for(st of newCharSavingThrows; track $index){
-            <div class="col-2">
-                <p>{{st.index}}- @if(st.value > 0){+}{{st.value}}</p>
-            </div>
-        }
-        <hr>
-    </div>
-
-    <div class="row">
-        @for (skill of BaseSkills; track $index) 
-        {
-            <div class="col-2">
-                <p>{{skill.index}}- @if(skill.value > 0){+}{{skill.value}}</p>
-            </div>
-        }
-        <hr style="margin-top: 1rem;">
-    </div>
-
-    <div class="row">
-        <div class="col3">
-            <label for="person">Personality</label>
-            <textarea class="form-control" id="person" [(ngModel)]="personality"></textarea>
-        </div>
-
-        <div class="col3">
-            <label for="ideals">Ideals</label>
-            <textarea class="form-control" id="ideals" [(ngModel)]="ideals"></textarea>
-        </div>
-
-        <div class="col3">
-            <label for="bonds">Bonds</label>
-            <textarea class="form-control" id="bonds" [(ngModel)]="bonds"></textarea>
-        </div>
-
-        <div class="col3">
-            <label for="flaws">Flaws</label>
-            <textarea class="form-control" id="flaws" [(ngModel)]="flaws"></textarea>
-        </div>
     </div>
 
     
 
     <div class="row">
-        <div class="col-2">
-            @if(imgUrl != undefined){
-                <img [src]="imgUrl" style="border-radius: 100%; width: 10rem; height: 10rem;">
-            }
-        </div>
-
-        <div class="col-2 align-self-center">
-            <input type="file" (change)="onFileChanged($event)">
-        </div>
-
-        <div class="col-2 align-self-center">
+        <div class="col-1 offset-5 align-self-center text-center">
             @if(isLoggedIn()){
                 @if(validCharacter()) {
-                <button (click)="addCharacter()">Add</button>
+                <button class="btn btn-danger" style="margin-left: 5rem;" (click)="addCharacter()">Add</button>
                 }
                 @else {
-                   <button disabled>Add</button> 
+                   <button class="btn btn-danger" style="margin-left: 5rem;" disabled>Add</button> 
                 }
             }
         </div>

@@ -1,16 +1,16 @@
 @if(!display){
-    <button (click)="toggleDisplay()">X</button>
+    <button (click)="toggleDisplay()" class="btn btn-danger">Menu</button>
 }
 
 @else {
     <div>
         <nav>
-            <ul style="list-style: none; margin: 0;">
-                <li><button (click)="toggleDisplay()">X</button></li>
-                <li><a routerLink="Home"><button>Home</button></a></li>
-                <li><a routerLink="Profile/{{activeUser().userId}}"><button>Profile</button></a></li>
-                <li><a routerLink="CharacterCreator"><button>Character Creator</button></a></li>
-                <li><a routerLink="Rules"><button>Rules</button></a></li>
+            <ul>
+                <li><button (click)="toggleDisplay()" class="btn btn-danger">Close</button></li>
+                <li><a routerLink="Home"><button class="btn btn-danger">Home</button></a></li>
+                <li><a routerLink="Profile/{{activeUser().userId}}"><button class="btn btn-danger">Profile</button></a></li>
+                <li><a routerLink="CharacterCreator"><button class="btn btn-danger">Character Creator</button></a></li>
+                <li><a routerLink="Rules"><button class="btn btn-danger">Rules</button></a></li>
             </ul>
         </nav>
     </div> 

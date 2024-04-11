@@ -1,0 +1,273 @@
+.abilityBox{
+    border: 1px solid red;
+    text-align: center;
+    width: 6.2rem;
+    border-radius: 10px;
+    padding-top: .25rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profAbilityBox{
+    border: 2px solid red;
+    text-align: center;
+    width: 6.2rem;
+    border-radius: 10px;
+    padding-top: .25rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p{
+    margin: 0;
+    padding: 0;
+}
+
+.modifierBox{
+    border: 1px solid red;
+    border-radius: 100%;
+    width: 4rem;
+    text-align: center;
+    background-color: white;
+    margin-top: -1.25rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: .25rem;
+}
+
+.profModifierBox{
+    border: 2px solid red;
+    font-weight: bold;
+    border-radius: 100%;
+    width: 4rem;
+    text-align: center;
+    background-color: white;
+    margin-top: -1.25rem;
+    padding: .25rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.buttonBox{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.abiButton{
+    border: 1px solid white;
+    background-color: rgb(255, 120, 120);
+    color: white;
+    width: 2rem;
+    border-radius: 1rem;
+}
+
+.abiButton:hover{
+    background-color: rgb(255, 85, 85);
+    box-shadow: .1rem .1rem .1rem .1rem gray;
+}
+
+.abiButton:active{
+    background-color: white;
+    color: red;
+    box-shadow: .1rem .1rem .1rem .1rem gray;
+}
+
+.pointsBox{
+    border: 1px solid red;
+    width: 12rem;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.methodButtons{
+    border: 1px solid white;
+    background-color: rgb(255, 120, 120);
+    color: white;
+    width: 8rem;
+    border-radius: .5rem;
+}
+
+.methodButtons:hover{
+    background-color: rgb(255, 85, 85);
+    box-shadow: .1rem .1rem .1rem .1rem gray;
+}
+
+.methodButtons:active{
+    background-color: white;
+    color: red;
+    box-shadow: .1rem .1rem .1rem .1rem gray;
+}
+
+.methodButtons:disabled{
+    background-color: gray;
+    color: white;
+    cursor:default;
+    box-shadow: none;
+}
+
+.profBubble{
+    border: 1px solid red;
+    border-radius: 100%;
+    width: 3rem;
+    height: 3rem;
+    align-self: center;
+    background-color: white;
+    z-index: 99;
+}
+
+.profBox{
+    border: 1px solid red;
+    margin-left: -1rem;
+    border-radius: 10px;
+    text-align: center;
+    align-self: center;
+    padding: 1rem;
+    width: 14rem;
+}
+
+.stBox{
+    border: 1px solid red;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20rem;
+    border-radius: 7px;
+}
+
+.skillsBox{
+    border: 1px solid red;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    width: 35rem;
+    margin-bottom: 2rem;
+    border-radius: 7px;
+}
+
+.profCircle{
+    width: 1rem;
+    height: 1rem;
+    padding: .25rem;
+    align-self: center;
+    border-radius: 100%;
+    margin-left: 1rem;
+    border: 1px solid black;
+}
+
+.profCircleFill{
+    width: 1rem;
+    height: 1rem;
+    padding: .25rem;
+    align-self: center;
+    border-radius: 100%;
+    margin-left: 1rem;
+    border: 1px solid black;
+    background-color: black;
+}
+
+.initBox{
+    border: 1px solid red;
+    margin-top: 1rem;
+    width: 6rem;
+    padding-bottom: 1rem;
+    border-radius: 7px;
+    text-align: center;
+}
+
+.speedBox{
+    border: 1px solid red;
+    padding-top: .3rem;
+    margin-top: 1rem;
+    width: 6rem;
+    padding-bottom: 1rem;
+    border-radius: 7px;
+    text-align: center;
+}
+
+.hpBox{
+    text-align: center;
+    border: 1px solid red;
+    margin-left: auto;
+    margin-right: auto;
+    width: 35rem;
+    padding-top: 1rem;
+    margin-top: 4rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 7px;
+}
+
+.hitDieBox{
+    width: 35rem;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid red;
+    padding-bottom: 1rem;
+    margin-top: 2rem;
+    border-radius: 7px;
+    padding-bottom: 1rem;
+}
+
+.diceRollBox{
+    width: 35rem;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid red;
+    margin-top: 2rem;
+    padding-bottom: 1rem;
+    border-radius: 7px;
+}
+
+.skillsChoiceBox{
+    text-align: center;
+    width: 50rem;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid red;
+    margin-top: 2rem;
+    padding-bottom: 1rem;
+    border-radius: 7px;
+}
+
+.traitsBox{
+    text-align: center;
+    width: 35rem;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5rem;
+    border-radius: 7px;
+    border: 1px solid red;
+    padding-bottom: 1rem;
+}
+
+.textBox{
+    resize: none;
+    font-size: 1.5rem;
+    width: 30rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-control:focus {
+    border-color: #FF0000;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+  }
+
+select:disabled{
+    background-color: white;
+    border-color: #FF0000;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+.form-control:disabled{
+    background-color: white;
+    border-color: #FF0000;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+
+.btn{
+    width: 10rem;
+    font-size: 1.3rem;
+}

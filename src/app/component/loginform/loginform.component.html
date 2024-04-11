@@ -1,22 +1,63 @@
 @if(!display){
     @if(!isLoggedIn()){
-        <button (click)="toggleDisplay()">Login</button>
+        <button (click)="toggleDisplay()" class="btn btn-danger">Login</button>
     }
     @else {
-        @if(activeUser().image != undefined){
-            <img [src]="createImgPath(activeUser().image.imagePath)" style="width: 10rem; height: 10rem; border-radius: 100%;"><p>{{activeUser().userName}}</p>
-        }
-        <button (click)="logout()">Logout</button>
+        <div class="row" style="margin-top: .5rem;">
+            @if(activeUser().image != undefined){
+                <div class="col-3">
+                    <img [src]="createImgPath(activeUser().image.imagePath)" style="width: 5rem; height: 5rem; border-radius: 100%;">
+                </div>
+
+                <div class="col-2 align-self-center">
+                    <p>{{activeUser().userName}}</p>
+                </div>
+            }
+        </div>
+        
+        <div class="row" style="margin-right: .1rem;">
+            <div class="col-2">
+                <button (click)="logout()" class="btn btn-danger">Logout</button>
+            </div>
+        </div>
     }
     
 }
 
 @else {
-    <button (click)="toggleDisplay()">Close</button>
-    <input type="text" class="form-control" [(ngModel)]="username">
-    <input type="password" class="form-control" [(ngModel)]="password">
-    <button (click)="login()">Login</button>
-    <a routerLink="/Register"><button (click)="toggleDisplay()">Register User</button></a> 
+    <div class="row">
+        <div class="col-1">
+            <button (click)="toggleDisplay()" class="btn btn-danger">Close</button>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-10">
+            <div class="form-floating">
+                <input id="username" type="text" class="form-control" [(ngModel)]="username" placeholder="Username">
+                <label for="username">Username</label>
+            </div>            
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10">
+            <div class="form-floating">
+                <input id="password" type="password" class="form-control" [(ngModel)]="password" placeholder="Password">
+                <label for="Password">Password</label>
+            </div> 
+        </div>        
+    </div>
+
+    <div class="row">
+        <div class="col-2">
+            <button (click)="login()" class="btn btn-danger">Login</button>
+        </div>
+
+        <div class="col-6">
+            <a routerLink="/Register"><button (click)="toggleDisplay()" class="btn btn-danger">Register User</button></a> 
+        </div>
+    </div>  
 }
 
 <p>{{updateCharacter().name}}</p>

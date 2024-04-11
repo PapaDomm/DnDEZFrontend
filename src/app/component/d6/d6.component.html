@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" style="margin-top: 1rem;">
     <div class="die-{{dieNumber}}" (click)="onClick()">
       <figure class="face face-1"></figure>
       <figure class="face face-2"></figure>
@@ -10,6 +10,7 @@
   </div>
 
   @if(type != "health"){
+    <h6 style="text-align: center;">Roll Values:</h6>
     <p style="text-align: center;">@if(statsNums.length < 4 && rolls != 0) {
         @for (num of statsNums; track $index) 
         { 

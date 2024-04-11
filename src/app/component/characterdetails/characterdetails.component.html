@@ -1,85 +1,279 @@
-<h1>{{displayChar.name}}</h1>
-<hr>
-<h2>Race- {{displayChar.race}} Class-{{displayChar.class}}</h2>
-<h3>Level: {{displayChar.level}}</h3>
-<hr>
-<h4>Alignment- {{displayChar.alignment}}</h4>
+<h1 style="text-align: center;">{{displayChar.name}}</h1>
 
-@if(displayChar.image != undefined){
-    <img [src]="createImgPath(displayChar.image.imagePath)" style="width: 10rem; height: 10rem;">
-}
 <hr>
 
 <div class="row">
-    <h3>Ability Scores</h3>
+
+    <div class="col-2">
+        <div class="row justify-content-center">
+            <img [src]="createImgPath(displayChar.image.imagePath)" style="width: 20rem; height: 20rem; border-radius: 100%;">
+            <p style="text-align: center; font-weight: 500;">Character Photo</p>
+        </div>
+    </div>
+    
+    <div class="col-6 offset-1 align-self-center">
+        <div class="row">
+
+            <div class="col-4">
+                <label for="race">Race</label>
+                <select id="race" class="form-control" disabled>
+                    <option>{{titleCaseWord(displayChar.race)}}</option>
+                </select>
+            </div>
+
+            <div class="col-4">
+                <label for="class">Class</label>
+                <select id="class" class="form-control" disabled>
+                    <option>{{titleCaseWord(displayChar.class)}}</option>
+                </select>
+            </div>
+
+            <div class="col-4">
+                <label for="level">Level</label>
+                <select id="level" class="form-control" disabled>
+                    <option>{{displayChar.level}}</option>
+                </select>
+            </div>
+            
+        </div>
+
+        <div class="row" style="margin-top: 1rem;">
+
+            <div class="col-4 offset-2">
+                <label for="alignment">Alignment</label>
+                <select id="alignment" class="form-control" disabled>
+                    <option>{{displayChar.alignment}}</option>
+                </select>
+            </div>
+
+            <div class="col-4 align-self-center">
+                <label for="userName">Player Name</label>
+                <select id="userName" class="form-control" disabled>
+                    <option>{{activeUser().firstName}} {{activeUser().lastName}}</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <hr style="margin-top: 2rem;">
+
+</div>
+
+<div class="row">
+    <h3 style="text-align: center;">Ability Scores</h3>
     @for (abi of displayChar.charAbilityScores; track $index) 
     {
         <div class="col-2">
-            <p>{{abi.index}}- {{abi.value}}</p>
+            @if(abi.racialBonus){
+                <div class="row profAbilityBox">
+                    <p style="font-weight: bold;">{{getAbiName(abi.index)}}</p>
+                    <p style="margin-bottom: 2rem; margin-top: 1rem;">{{abi.value}}</p>
+                </div>
+            }
+            @else {
+                <div class="row abilityBox">
+                    <p>{{getAbiName(abi.index)}}</p>
+                    <p style="margin-bottom: 2rem; margin-top: 1rem;">{{abi.value}}</p>
+                </div>
+            }
+            
+            @if(abi.racialBonus){
+                <div class="row profModifierBox">
+                    <p style="padding: 0; margin: 0;">@if(getAbiModifier(abi) > 0 ){+}{{getAbiModifier(abi)}}</p>
+                </div>
+            }
+            @else {
+                <div class="row modifierBox">
+                    <p style="padding: 0; margin: 0;">@if(getAbiModifier(abi) > 0 ){+}{{getAbiModifier(abi)}}</p>
+                </div>
+            }
         </div>
+        
     }
 </div>
 <hr>
 
-<div class="row">
-    <p>Proficiency Bonus- {{displayChar.profBonus}}</p>
-</div>
 
-<div class="row">
-    <p>Speed- {{displayChar.speed}}FT</p>
-</div>
+<div class="row" style="font-size: 1.2rem; border: 1px solid red; border-radius: 7px; width: 150rem; margin-left: auto; margin-right: auto; padding: 1rem;">
+    <h3 style="text-align: center; margin-bottom: 2rem;">Saving Throws</h3>
+    @for (st of displayChar.savingThrows; track $index) {
+        <div class="col-1" style="margin-left: 10rem;">
+            <div class="row">
+                @if(st.proficient == true){
+                    <div class="col-1 profCircleFill"></div>
+                }
+                @else {
+                    <div class="col-1 profCircle"></div>
+                }
+                
+        
+                <div class="col-1" style="margin-left: 1rem; margin-right: 1rem;">
+                    <p style="text-decoration: underline;">&nbsp;@if(st.value > 0){+}{{st.value}}&nbsp; </p>
+                </div>
 
-<div class="row">
-    <p>Hit Points- {{displayChar.hp}}</p>
-</div>
-
-<div class="row">
-    <p>Hit Die- 1d{{displayChar.hitDie}}</p>
+                <div class="col-1">
+                    <span>{{getAbiName(st.index)}}</span>
+                </div>
+            </div>
+        </div>
+        
+    }
 </div>
 
 <hr>
 
 <div class="row">
-    <h3>Skills</h3>
+
+    <div class="row align-items-center">        
+        <div class="col-1 offset-4">
+            <div class="row align-items-center">
+                <div class="initBox">
+                    <div class="row">
+                        <p style="font-size: 1.2rem; font-weight: 500;">Initiative</p>
+                        <hr style="color: red; margin: 0;">
+                    </div>
+            
+                    <div class="row align-self-center" style="padding-top: 1rem;">
+                       <p>@if(displayChar.initiative > 0){+}{{displayChar.initiative}}</p>
+                    </div>
+                </div> 
+            </div>
+                                        
+        </div>
+
+        <div class="col-2" style="margin-left: 3.5rem;">
+            <div class="row" style="margin-top: 2rem;">
+                <div class="col-1 profBubble">
+                    <p style="padding-top: .6rem; font-weight: bold;">+{{displayChar.profBonus}}</p>
+                </div>
+                <div class="col-2 profBox">
+                    <h5>Proficiency Bonus</h5>
+                </div>
+            </div>        
+        </div>
+    
+        <div class="col-1" style="margin-left: 1rem;">
+            <div class="row align-items-center">
+                <div class="speedBox">
+                    <div class="row">
+                        <p style="font-size: 1.2rem; font-weight: 500;">Speed</p>
+                        <hr style="color: red; margin: 0;">
+                    </div>
+            
+                    <div class="row align-self-center" style="padding-top: 1rem;">
+                       <p>{{displayChar.speed}}FT</p>
+                    </div>
+                </div>
+            </div>        
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="row">
+            <div class="col-4 offset-4">
+                <div class="row">
+                    <div class="hpBox">
+                        <div class="row">
+                            <h2>Maximum HP</h2>
+                            <hr style="color: red;">
+                        </div>
+            
+                        <div class="row">
+                            <h3>{{displayChar.hp}}</h3>
+                        </div>
+                    </div>
+                </div>        
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-4 offset-4">
+                <div class="row">
+                    <div class="hitDieBox">
+                        <div class="row">
+                            <p style="margin-left: 1rem; text-decoration: underline; color: rgba(0, 0, 0, 0.678);">Total: {{displayChar.level}}</p>
+                        </div>
+            
+                        <div class="row text-center">
+                            <h2>Hit Die</h2>
+                            <hr style="color: red;">
+                        </div>
+            
+                        <div class="row text-center">
+                            <h3>1d{{displayChar.hitDie}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        
+    </div>
+
+          
+</div>
+
+<hr>
+
+<div class="row" style="border: 1px solid red; border-radius: 7px; width: 98%; margin-left: auto; margin-right: auto; padding: 1rem;">
+    <h3 style="text-align: center;">Skills</h3>
     @for (skills of displayChar.charSkillScores; track $index) {
-        <div class="col-2">
-            <p>{{skills.index}}- @if(skills.value > 0){+}{{skills.value}}</p>
-        </div>
+        <div class="col-2" style="font-size: 1.2rem;">
+            <div class="row">
+                @if(skills.proficient == true){
+                    <div class="col-1 profCircleFill"></div>
+                }
+                @else {
+                    <div class="col-1 profCircle"></div>
+                }
+                <div class="col-1" style="margin-left: 1rem;">
+                    <p style="text-decoration: underline;">&nbsp;@if(skills.value > 0){+}{{skills.value}}&nbsp;</p>
+                </div>
+        
+                <div class="col-9 align-self-center">
+                    <p>{{getSkillName(skills.index)}}&nbsp; <span style="color: rgba(0, 0, 0, 0.712); font-size: .8rem;">( {{getAbiType(skills.index)}} )</span></p>
+                </div>
+            </div>
+        </div>        
     }
 </div>
 
 <hr>
 
 <div class="row">
-    <h3>Saving Throws</h3>
-    @for (saves of displayChar.savingThrows; track $index) {
-        <div class="col-2">
-            <p>{{saves.index}}- @if(saves.value > 0){+}{{saves.value}}</p>
+
+        <div class="col-3 traitsBox">
+            <label for="person" style="font-size: 1.6rem; padding-bottom: .5rem;">Personality</label>
+            <hr style="color: red;">
+            <textarea class="form-control textBox" id="person" rows="5" cols="30" maxlength="500" [value]="displayChar.personality" disabled></textarea>
         </div>
-    }
-</div>
-
-<div class="row">
-    <h3>Personality:</h3>
-    <p>{{displayChar.personality}}</p>
-</div>
-
-<div class="row">
-    <h3>Ideals:</h3>
-    <p>{{displayChar.ideals}}</p>
-</div>
-
-<div class="row">
-    <h3>Bonds:</h3>
-    <p>{{displayChar.bonds}}</p>
-</div>
-
-<div class="row">
-    <h3>Flaws:</h3>
-    <p>{{displayChar.flaws}}</p>
+    
+        <div class="col-3 traitsBox">
+            <label for="ideals" style="font-size: 1.6rem; padding-bottom: .5rem;">Ideals</label>
+            <hr style="color: red;">
+            <textarea class="form-control textBox" id="ideals" rows="5" cols="30" maxlength="500" [value]="displayChar.ideals" disabled></textarea>
+        </div>
+    
+        <div class="col-3 traitsBox">
+            <label for="bonds" style="font-size: 1.6rem; padding-bottom: .5rem;">Bonds</label>
+            <hr style="color: red;">
+            <textarea class="form-control textBox" id="bonds" rows="5" cols="30" maxlength="500" [value]="displayChar.bonds" disabled></textarea>
+        </div>
+    
+        <div class="col-3 traitsBox">
+            <label for="flaws" style="font-size: 1.6rem; padding-bottom: .5rem;">Flaws</label>
+            <hr style="color: red;">
+            <textarea class="form-control textBox" id="flaws" rows="5" cols="30" maxlength="500" [value]="displayChar.flaws" disabled></textarea>
+        </div>
 </div>
 
 <hr>
 
-<button routerLink="/UpdateCharacter" (click)="getUpdateCharacter()">Update Character</button>
-<button (click)="deleteCharacter()">X</button>
+<div class="row">
+    <div class="col-1 offset-5 align-self-center text-center">
+        <button class="btn btn-danger" routerLink="/UpdateCharacter" (click)="getUpdateCharacter()">Update Character</button>
+    </div>
+    <div class="col-1 align-self-center text-center">        
+        <button class="btn btn-danger" (click)="deleteCharacter()">Delete Character</button>
+    </div>
+</div>

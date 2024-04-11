@@ -28,16 +28,20 @@ export interface Skill {
     index : string;
     value : number;
     proficient : boolean;
+    name? : string;
+    abiIndex? : string;
 }
 
 export interface SavingThrow {
     index : string;
     value : number;
     proficient : boolean;
+    name? : string;
 }
 
 export interface CharAbilityScoreDTOModel {
     index : string;
     value : number;
     racialBonus : boolean;
+    name? : string;
 }

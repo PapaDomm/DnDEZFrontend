@@ -93,12 +93,12 @@ export class UpdatecharacterComponent {
   statsChanged : number = 0;
 
   BaseAbilityScores : CharAbilityScoreDTOModel[] = [
-    {index : 'str', value : 8, racialBonus : false},
-    {index : 'dex', value : 8, racialBonus : false},
-    {index : 'con', value : 8, racialBonus : false},
-    {index : 'int', value : 8, racialBonus : false},
-    {index : 'wis', value : 8, racialBonus : false},
-    {index : 'cha', value : 8, racialBonus : false}
+    {index : 'str', value : 8, racialBonus : false, name : 'Strength'},
+    {index : 'dex', value : 8, racialBonus : false, name : 'Dexterity'},
+    {index : 'con', value : 8, racialBonus : false, name : 'Constitution'},
+    {index : 'int', value : 8, racialBonus : false, name : 'Intelligence'},
+    {index : 'wis', value : 8, racialBonus : false, name : 'Wisdom'},
+    {index : 'cha', value : 8, racialBonus : false, name : 'Charisma'}
   ];
 
   RaceBonusScores : CharAbilityScoreDTOModel[] = [
@@ -129,33 +129,54 @@ export class UpdatecharacterComponent {
   ];
 
   BaseSkills : Skill[] = [
-    {index : 'acrobatics', value : 0, proficient : false},
-    {index : 'animal-handling', value : 0, proficient : false},
-    {index : 'arcana', value : 0, proficient : false},
-    {index : 'athletics', value : 0, proficient : false},
-    {index : 'deception', value : 0, proficient : false},
-    {index : 'history', value : 0, proficient : false},
-    {index : 'insight', value : 0, proficient : false},
-    {index : 'intimidation', value : 0, proficient : false},
-    {index : 'investigation', value : 0, proficient : false},
-    {index : 'medicine', value : 0, proficient : false},
-    {index : 'nature', value : 0, proficient : false},
-    {index : 'perception', value : 0, proficient : false},
-    {index : 'performance', value : 0, proficient : false},
-    {index : 'persuasion', value : 0, proficient : false},
-    {index : 'religion', value : 0, proficient : false},
-    {index : 'sleight-of-hand', value : 0, proficient : false},
-    {index : 'stealth', value : 0, proficient : false},
-    {index : 'survival', value : 0, proficient : false}
+    {index : 'acrobatics', value : 0, proficient : false, name : "Acrobatics", abiIndex : "Dex"},
+    {index : 'animal-handling', value : 0, proficient : false, name : "Animal Handling", abiIndex : "Wis"},
+    {index : 'arcana', value : 0, proficient : false, name : "Arcana", abiIndex : "Int"},
+    {index : 'athletics', value : 0, proficient : false, name : "Athletics", abiIndex : "Str"},
+    {index : 'deception', value : 0, proficient : false, name : "Deception", abiIndex : "Cha"},
+    {index : 'history', value : 0, proficient : false, name : "History", abiIndex : "Int"},
+    {index : 'insight', value : 0, proficient : false, name : "Insight", abiIndex : "Wis"},
+    {index : 'intimidation', value : 0, proficient : false, name : "Intimidation", abiIndex : "Cha"},
+    {index : 'investigation', value : 0, proficient : false, name : "Investigation", abiIndex : "Int"},
+    {index : 'medicine', value : 0, proficient : false, name : "Medicine", abiIndex : "Wis"},
+    {index : 'nature', value : 0, proficient : false, name : "Nature", abiIndex : "Int"},
+    {index : 'perception', value : 0, proficient : false, name : "Perception", abiIndex : "Wis"},
+    {index : 'performance', value : 0, proficient : false, name : "Performance", abiIndex : "Cha"},
+    {index : 'persuasion', value : 0, proficient : false, name : "Persuasion", abiIndex : "Cha"},
+    {index : 'religion', value : 0, proficient : false, name : "Religion", abiIndex : "Int"},
+    {index : 'sleight-of-hand', value : 0, proficient : false, name : "Sleight of Hand", abiIndex : "Dex"},
+    {index : 'stealth', value : 0, proficient : false, name : "Stealth", abiIndex : "Dex"},
+    {index : 'survival', value : 0, proficient : false, name : "Survival", abiIndex : "Wis"}
+  ];
+
+  StartingBaseSkills : classSkill[] = [
+    {index : 'acrobatics', name : "Acrobatics"},
+        {index : 'animal-handling', name : "Animal Handling"},
+        {index : 'arcana', name : "Arcana"},
+        {index : 'athletics', name : "Athletics"},
+        {index : 'deception', name : "Deception"},
+        {index : 'history', name : "History"},
+        {index : 'insight', name : "Insight"},
+        {index : 'intimidation', name : "Intimidation"},
+        {index : 'investigation', name : "Investigation"},
+        {index : 'medicine', name : "Medicine"},
+        {index : 'nature', name : "Nature"},
+        {index : 'perception', name : "Perception"},
+        {index : 'performance', name : "Performance"},
+        {index : 'persuasion', name : "Persuasion"},
+        {index : 'religion', name : "Religion"},
+        {index : 'sleight-of-hand', name : "Sleight of Hand"},
+        {index : 'stealth', name : "Stealth"},
+        {index : 'survival', name : "Survival"}
   ];
 
   newCharSavingThrows : SavingThrow[] = [
-    {index : 'str', value : 0, proficient : false},
-    {index : 'dex', value : 0, proficient : false},
-    {index : 'con', value : 0, proficient : false},
-    {index : 'int', value : 0, proficient : false},
-    {index : 'wis', value : 0, proficient : false},
-    {index : 'cha', value : 0, proficient : false}
+    {index : 'str', value : 0, proficient : false, name : 'Strength'},
+    {index : 'dex', value : 0, proficient : false, name : 'Dexterity'},
+    {index : 'con', value : 0, proficient : false, name : 'Constitution'},
+    {index : 'int', value : 0, proficient : false, name : 'Intelligence'},
+    {index : 'wis', value : 0, proficient : false, name : 'Wisdom'},
+    {index : 'cha', value : 0, proficient : false, name : 'Charisma'}
   ];
 
   standardArray : number[] = [
@@ -173,6 +194,11 @@ export class UpdatecharacterComponent {
   characterForm : FormData = new FormData();
 
   ngOnInit(){
+
+    if(!this.isLoggedIn()){
+      this.router.navigate(["/NotFound"]);
+    }
+
     this.displayChar = this.userService.updateCharacter;
     this.name = this.displayChar.name;
     this.class = this.displayChar.class;
@@ -264,14 +290,42 @@ export class UpdatecharacterComponent {
     })
   }
 
+  returnName(index : string){
+    if(index == 'pointBuy'){
+      return 'Point Buy';
+    }
+    else if (index == 'diceRoll'){
+      return 'Dice Roll';
+    }
+    else if(index == 'homeBrew'){
+      return 'Homebrew';
+    }
+    else{
+      return 'Standard Array'
+    }
+  }
+
+  getAbiModifier(abi : CharAbilityScoreDTOModel){
+    return Math.floor((this.totalAbilityScore(abi) - 10) / 2)
+  }
+
+  isProficient(abi : CharAbilityScoreDTOModel){
+    if(this.totalAbilityScores.filter(a => a.index == abi.index)[0].racialBonus == true){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   methodChange(){
     this.BaseAbilityScores = [
-      {index : 'str', value : 8, racialBonus : false},
-      {index : 'dex', value : 8, racialBonus : false},
-      {index : 'con', value : 8, racialBonus : false},
-      {index : 'int', value : 8, racialBonus : false},
-      {index : 'wis', value : 8, racialBonus : false},
-      {index : 'cha', value : 8, racialBonus : false}
+      {index : 'str', value : 8, racialBonus : false, name : 'Strength'},
+      {index : 'dex', value : 8, racialBonus : false, name : 'Dexterity'},
+      {index : 'con', value : 8, racialBonus : false, name : 'Constitution'},
+      {index : 'int', value : 8, racialBonus : false, name : 'Intelligence'},
+      {index : 'wis', value : 8, racialBonus : false, name : 'Wisdom'},
+      {index : 'cha', value : 8, racialBonus : false, name : 'Charisma'}
     ];
 
     this.diceScores = [
@@ -350,7 +404,29 @@ export class UpdatecharacterComponent {
     this.classProfs = this.currentClass.proficiency.choices;
     this.hitdie = this.currentClass.hit_die;
     this.profsToChoose = this.currentClass.proficiency.choose;
+    this.newCharSkills = [];
     this.newCharSkills.length = this.profsToChoose;
+
+    this.BaseSkills = [
+      {index : 'acrobatics', value : 0, proficient : false, name : "Acrobatics", abiIndex : "Dex"},
+      {index : 'animal-handling', value : 0, proficient : false, name : "Animal Handling", abiIndex : "Wis"},
+      {index : 'arcana', value : 0, proficient : false, name : "Arcana", abiIndex : "Int"},
+      {index : 'athletics', value : 0, proficient : false, name : "Athletics", abiIndex : "Str"},
+      {index : 'deception', value : 0, proficient : false, name : "Deception", abiIndex : "Cha"},
+      {index : 'history', value : 0, proficient : false, name : "History", abiIndex : "Int"},
+      {index : 'insight', value : 0, proficient : false, name : "Insight", abiIndex : "Wis"},
+      {index : 'intimidation', value : 0, proficient : false, name : "Intimidation", abiIndex : "Cha"},
+      {index : 'investigation', value : 0, proficient : false, name : "Investigation", abiIndex : "Int"},
+      {index : 'medicine', value : 0, proficient : false, name : "Medicine", abiIndex : "Wis"},
+      {index : 'nature', value : 0, proficient : false, name : "Nature", abiIndex : "Int"},
+      {index : 'perception', value : 0, proficient : false, name : "Perception", abiIndex : "Wis"},
+      {index : 'performance', value : 0, proficient : false, name : "Performance", abiIndex : "Cha"},
+      {index : 'persuasion', value : 0, proficient : false, name : "Persuasion", abiIndex : "Cha"},
+      {index : 'religion', value : 0, proficient : false, name : "Religion", abiIndex : "Int"},
+      {index : 'sleight-of-hand', value : 0, proficient : false, name : "Sleight of Hand", abiIndex : "Dex"},
+      {index : 'stealth', value : 0, proficient : false, name : "Stealth", abiIndex : "Dex"},
+      {index : 'survival', value : 0, proficient : false, name : "Survival", abiIndex : "Wis"}
+    ];
 
 
     if(!this.startingHealth){
