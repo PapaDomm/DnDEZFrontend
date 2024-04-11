@@ -19,7 +19,7 @@ img:hover{
 
 .centerFoot {
     display: flex;
-    justify-content: center;
+    margin-left: 57rem;
     align-items: center;
 }
 

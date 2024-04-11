@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RuleModel } from '../../models/rule-model';
 import { DnDRulesService } from '../../services/DndRules/dn-drules.service';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-rules',
@@ -11,7 +12,7 @@ import { DnDRulesService } from '../../services/DndRules/dn-drules.service';
 })
 export class RulesComponent {
 
-  constructor(private DnDService: DnDRulesService) {}
+  constructor(private DnDService: DnDRulesService, private userservice : UserService) {}
 
   rules:RuleModel[] = [];
 

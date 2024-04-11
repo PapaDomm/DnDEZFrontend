@@ -405,7 +405,7 @@
 
                 <div class="col-6 initBox">
                     <div class="row">
-                        <p style="font-size: 1.2rem; font-weight: 500;">Initiative</p>
+                        <p style="font-size: 1rem; font-weight: 500;">Initiative</p>
                         <hr style="color: red; margin: 0;">
                     </div>
 
@@ -564,10 +564,10 @@
         <div class="col-1 offset-5 align-self-center">
             @if(isLoggedIn()){
                 @if(validCharacter()) {
-                <button class="btn btn-danger" style="margin-left: 5rem;" (click)="updateCharacter()">Update</button>
+                <button class="btn btn-danger" style="margin-left: 5rem; margin-bottom: 2rem;" (click)="updateCharacter()">Update</button>
                 }
                 @else {
-                   <button class="btn btn-danger" style="margin-left: 5rem;" disabled>Update</button> 
+                   <button class="btn btn-danger" style="margin-left: 5rem; margin-bottom: 2rem;" disabled>Update</button> 
                 }
             }
         </div>

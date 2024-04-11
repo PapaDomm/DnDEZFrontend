@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { CharacterService } from '../../services/Character/character.service';
 import { DnDRulesService } from '../../services/DndRules/dn-drules.service';
 import { CharAbilityScoreDTOModel, CharacterModel, SavingThrow, Skill } from '../../models/character';
@@ -212,7 +212,7 @@ export class CharacterCreatorComponent {
 
     }
 
-    isProficient(abi : CharAbilityScoreDTOModel){
+    isProficient(abi : CharAbilityScoreDTOModel):boolean{
       if(this.totalAbilityScores.filter(a => a.index == abi.index)[0].racialBonus == true){
         return true;
       }

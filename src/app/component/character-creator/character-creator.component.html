@@ -92,7 +92,7 @@
                         </select>
                     }
                     @else {
-                        <p style="padding-top: 1.5rem; margin-left: 2rem; font-size: 1.2rem; font-weight: 500;">Please Login/Register to Save Character</p>
+                        <p style="padding-top: 1.5rem; margin-left: 2rem; font-size: 1rem; font-weight: 500;">Please Login/Register to Save Character</p>
                     }
                 </div>
 
@@ -405,7 +405,7 @@
 
                 <div class="col-6 initBox">
                     <div class="row">
-                        <p style="font-size: 1.2rem; font-weight: 500;">Initiative</p>
+                        <p style="font-size: 1rem; font-weight: 500;">Initiative</p>
                         <hr style="color: red; margin: 0;">
                     </div>
 
@@ -567,10 +567,10 @@
         <div class="col-1 offset-5 align-self-center text-center">
             @if(isLoggedIn()){
                 @if(validCharacter()) {
-                <button class="btn btn-danger" style="margin-left: 5rem;" (click)="addCharacter()">Add</button>
+                <button class="btn btn-danger" style="margin-left: 5rem; margin-bottom: 2rem;" (click)="addCharacter()">Add</button>
                 }
                 @else {
-                   <button class="btn btn-danger" style="margin-left: 5rem;" disabled>Add</button> 
+                   <button class="btn btn-danger" style="margin-left: 5rem; margin-bottom: 2rem;" disabled>Add</button> 
                 }
             }
         </div>

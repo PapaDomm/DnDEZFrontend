@@ -24,6 +24,10 @@ export class RegisterpageComponent {
 
   newUserForm : FormData = new FormData();
 
+  ngOnInit(){
+    this.imgUrl = 'https://localhost:7121/Images/Users/defaultProfilePic.png'
+  }
+
   onFileSelected(event : any){
     const file : File = event.target.files[0];
 

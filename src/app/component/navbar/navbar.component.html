@@ -3,10 +3,10 @@
 }
 
 @else {
-    <div>
+    <div (click)="toggleDisplay()">
         <nav>
             <ul>
-                <li><button (click)="toggleDisplay()" class="btn btn-danger">Close</button></li>
+                <li><button class="btn btn-danger">Close</button></li>
                 <li><a routerLink="Home"><button class="btn btn-danger">Home</button></a></li>
                 <li><a routerLink="Profile/{{activeUser().userId}}"><button class="btn btn-danger">Profile</button></a></li>
                 <li><a routerLink="CharacterCreator"><button class="btn btn-danger">Character Creator</button></a></li>

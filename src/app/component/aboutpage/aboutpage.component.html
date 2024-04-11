@@ -29,14 +29,47 @@
         </div>
 
         <div class="row justify-content-center align-self-center">
-            <div class="card" style="width: 17rem;">
-                <img class="card-img-top" style="height: 15rem; width: 15rem;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHPIPfw2viPxVQtFPj2-LiXFiJftPjC0gaNbzJDxnpDA&s">
-                <div class="card-body">
-                    <h3 class="card-title">Character Name</h3>
-                    <hr>
-                    <p class="card-text">Insert a ton of character stats here</p>
+            <div id="EliCharCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="card " style="width: 15rem; margin-left: auto; margin-right: auto;">
+                            <img class="card-img-top" style="height: 15rem; width: 15rem; border-radius: 0;" [src]="getImg(getIconicsById(105).image.imagePath)">
+                            <div class="card-body">
+                                <h3 class="card-title">{{getIconicsById(105).name}}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="card" style="width: 15rem; margin-left: auto; margin-right: auto;">
+                            <img class="card-img-top" style="height: 15rem; width: 15rem; border-radius: 0;" [src]="getImg(getIconicsById(106).image.imagePath)">
+                            <div class="card-body">
+                                <h3 class="card-title">{{getIconicsById(106).name}}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="card" style="width: 15rem; margin-left: auto; margin-right: auto;">
+                            <img class="card-img-top" style="height: 15rem; width: 15rem; border-radius: 0;" [src]="getImg(getIconicsById(107).image.imagePath)">
+                            <div class="card-body">
+                                <h3 class="card-title">{{getIconicsById(107).name}}</h3>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#EliCharCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+
+                <button class="carousel-control-next" type="button" data-bs-target="#EliCharCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    <span class="visually-hidden" >Next</span>
+                  </button>
             </div>
+
         </div>
     </div>
 
@@ -73,14 +106,47 @@
         </div>
 
         <div class="row justify-content-center align-self-center">
-            <div class="card" style="width: 17rem;">
-                <img class="card-img-top" style="height: 15rem; width: 15rem;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHPIPfw2viPxVQtFPj2-LiXFiJftPjC0gaNbzJDxnpDA&s">
-                <div class="card-body">
-                    <h3 class="card-title">Character Name</h3>
-                    <hr>
-                    <p class="card-text">Insert a ton of character stats here</p>
+            <div id="DomCharCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="card " style="width: 15rem; margin-left: auto; margin-right: auto;">
+                            <img class="card-img-top" style="height: 15rem; width: 15rem; border-radius: 0;" [src]="getImg(getIconicsById(101).image.imagePath)">
+                            <div class="card-body">
+                                <h3 class="card-title">{{getIconicsById(101).name}}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="card" style="width: 15rem; margin-left: auto; margin-right: auto;">
+                            <img class="card-img-top" style="height: 15rem; width: 15rem; border-radius: 0;" [src]="getImg(getIconicsById(102).image.imagePath)">
+                            <div class="card-body">
+                                <h3 class="card-title">{{getIconicsById(102).name}}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="card" style="width: 15rem; margin-left: auto; margin-right: auto;">
+                            <img class="card-img-top" style="height: 15rem; width: 15rem; border-radius: 0;" [src]="getImg(getIconicsById(103).image.imagePath)">
+                            <div class="card-body">
+                                <h3 class="card-title">{{getIconicsById(103).name}}</h3>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#DomCharCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+
+                <button class="carousel-control-next" type="button" data-bs-target="#DomCharCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    <span class="visually-hidden" >Next</span>
+                  </button>
             </div>
+
         </div>
     </div>
 

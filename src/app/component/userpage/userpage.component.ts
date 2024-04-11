@@ -19,6 +19,8 @@ export class UserpageComponent {
   constructor(private userService : UserService, private characterService : CharacterService, private router : Router){}
 
 
+  imgUrl : any;
+
   userCharacters : CharacterModel[] = []
 
   ngOnInit(){
@@ -28,6 +30,7 @@ export class UserpageComponent {
     this.characterService.getUserCharacters(this.getUser().userId).subscribe((response) => {
       this.userCharacters = response;
     })
+    this.imgUrl = this.createImgPath(this.getUser().image.imagePath)
   }
 
   createImgPath(path : string){

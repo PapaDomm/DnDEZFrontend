@@ -67,13 +67,13 @@
         <div class="col-2">
             @if(abi.racialBonus){
                 <div class="row profAbilityBox">
-                    <p style="font-weight: bold;">{{getAbiName(abi.index)}}</p>
+                    <p style="font-weight: bold; font-size: 1rem;">{{getAbiName(abi.index)}}</p>
                     <p style="margin-bottom: 2rem; margin-top: 1rem;">{{abi.value}}</p>
                 </div>
             }
             @else {
                 <div class="row abilityBox">
-                    <p>{{getAbiName(abi.index)}}</p>
+                    <p style="font-size: 1rem;">{{getAbiName(abi.index)}}</p>
                     <p style="margin-bottom: 2rem; margin-top: 1rem;">{{abi.value}}</p>
                 </div>
             }
@@ -130,7 +130,7 @@
             <div class="row align-items-center">
                 <div class="initBox">
                     <div class="row">
-                        <p style="font-size: 1.2rem; font-weight: 500;">Initiative</p>
+                        <p style="font-size: 1rem; font-weight: 500;">Initiative</p>
                         <hr style="color: red; margin: 0;">
                     </div>
             
@@ -271,9 +271,9 @@
 
 <div class="row">
     <div class="col-1 offset-5 align-self-center text-center">
-        <button class="btn btn-danger" routerLink="/UpdateCharacter" (click)="getUpdateCharacter()">Update Character</button>
+        <button class="btn btn-danger" style="margin-bottom: 2rem;" routerLink="/UpdateCharacter" (click)="getUpdateCharacter()">Update Character</button>
     </div>
     <div class="col-1 align-self-center text-center">        
-        <button class="btn btn-danger" (click)="deleteCharacter()">Delete Character</button>
+        <button class="btn btn-danger"style="margin-bottom: 2rem;" (click)="deleteCharacter()">Delete Character</button>
     </div>
 </div>

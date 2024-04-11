@@ -2,13 +2,13 @@
     <div class="col-6" style="text-align: center;">
         <div class="row" style="justify-content: center;">
             @if(getUser().image != undefined){
-                <img style="width: 15rem;" [src]="createImgPath(getUser().image.imagePath)">
+                <img style="border-radius: 100%; height: 18rem; width: 20rem;" [src]="imgUrl">
             }
             <h2>{{getUser().userName}}</h2>
             <p>{{getUser().firstName}} {{getUser().lastName}}</p>
         </div>
         <div class="row">
-            <app-userupdateform style="margin-left: auto; margin-right: auto;" [userId]="getUser().userId" (outputEmitter)="ngOnInit()"></app-userupdateform>    
+            <app-userupdateform style="margin-left: auto; margin-right: auto;" [userId]="getUser().userId" (outputEmitter)="ngOnInit()" (photoEmit)="imgUrl = $event"></app-userupdateform>    
         </div>
     </div>
     <div class="col-6">

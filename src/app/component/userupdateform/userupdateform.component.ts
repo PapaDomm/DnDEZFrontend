@@ -14,12 +14,15 @@ export class UserupdateformComponent {
 
   @Input() userId = 0;
   @Output() outputEmitter = new EventEmitter();
+  @Output() photoEmit = new EventEmitter<any>();
 
   fileName : string = '';
 
   firstName : string = '';
   lastName : string = '';
   userName : string = '';
+
+  imgUrl : any;
 
   updateForm : FormData = new FormData();
 
@@ -31,6 +34,13 @@ export class UserupdateformComponent {
 
       this.updateForm.append("Image", file);
       this.updateForm.append("filename", file.name);
+
+      const reader : FileReader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (_event) => {
+          this.imgUrl = reader.result;
+          this.photoEmit.emit(this.imgUrl)
+        }
     }
   }
 
