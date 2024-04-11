@@ -1,12 +1,14 @@
-<h1 style="text-align: center;"><u>Rules</u></h1>
+<div style="text-align: center; font-size: 2rem; font-weight: 400; padding-bottom: 1rem;"><p>Rules</p></div>
 @for(rule of charRules; track $index) {
+  <div style="text-align: center;">
   <p class="d-inline-flex gap-1">
-    <a class="btn btn-secondary" data-bs-toggle="collapse" href="#{{$index}}" role="button" aria-expanded="false">
+    <a class="btn btn-danger" data-bs-toggle="collapse" href="#{{$index}}" role="button" aria-expanded="false" style="text-align: center;">
       {{rule.name}}
     </a>
   </p>
+</div>
   <div class="collapse" id="{{$index}}">
-    <div class="card card-body">
+    <div class="card card-body" style="border-color: red; border-width: 100%;">
       <p style="white-space: pre-line;">{{rule.desc}}</p>
     </div>
   </div>

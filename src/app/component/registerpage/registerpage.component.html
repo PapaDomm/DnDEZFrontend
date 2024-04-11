@@ -1,12 +1,57 @@
-@if(imgUrl != undefined){
-    <img [src]="imgUrl" style="width: 10rem; height: 10rem; border-radius: 100%;" >
-}
+<div class="row justify-content-center align-items-center">
+    
+    <div class="col-5"  style="border: 2px solid red; background-color: #2A2929;">
 
+        <div class="d-flex justify-content-center">
 
-<input type="text" [(ngModel)]="firstName">
-<input type="text" [(ngModel)]="lastName">
-<input type="text" [(ngModel)]="userName">
-<input type="password" [(ngModel)]="password">
-<input type="file" (change)="onFileSelected($event)">
+            <div class="col-6" style="text-align: center;">
 
-<button (click)="updateUser()">Create Account</button>
+                <br><br>
+                <h3 style="color: white;">Register your account</h3>
+                <br>
+                
+                <div class="form-floating">
+                    <input type="text" [(ngModel)]="firstName" class="form-control" id="fname" placeholder="First Name">
+                    <label for="fname">First Name</label>
+                    <br><br>
+                </div>
+
+                <div class="form-floating">
+                    <input type="text" [(ngModel)]="lastName" class="form-control" id="lname" placeholder="Last Name">
+                    <label for="lname">Last Name</label>
+                    <br><br>
+                </div>
+
+                <div class="form-floating">
+                    <input type="text" [(ngModel)]="userName" class="form-control" id="uname" placeholder="Username">
+                    <label for="uname">Username</label>
+                    <br><br>
+                </div>
+
+                <div class="form-floating">
+                    <input type="text" [(ngModel)]="password" class="form-control" id="password" placeholder="Password">
+                    <label for="floatingInput">Password</label>
+                    <br><br>
+                </div>
+                
+                <div style="border: 1px solid red; border-radius: 7px; margin: 10px; padding: 3px">
+                    <label for="profilePic" style="color: white">Upload a profile picture (optional):</label>
+                    <br><br>
+                    <input style="color: white;" type="file" (change)="onFileSelected($event)">
+                    @if(imgUrl != undefined){
+                        <img [src]="imgUrl" style="width: 10rem; height: 10rem; border-radius: 100%;" >
+                    }
+                    <br><br>
+                </div>
+                <br><br>
+
+                <button class="btn btn-danger" (click)="updateUser()">Create Account</button>
+                <br><br><br><br>
+
+            </div>
+
+        </div>
+        
+    </div>
+    
+</div>  

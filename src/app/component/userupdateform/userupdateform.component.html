@@ -1,6 +1,48 @@
-<input type="text" [(ngModel)]="firstName">
+<!-- <input type="text" [(ngModel)]="firstName">
 <input type="text" [(ngModel)]="lastName">
 <input type="text" [(ngModel)]="userName">
 <input type="file" (change)="onFileSelected($event)">
 
-<button (click)="updateUser()">Update Account</button>
+<button (click)="updateUser()">Update Account</button> -->
+
+
+<div class="row justify-content-center align-items-center updatebox">
+    <h3 style="color: white; margin-bottom: 1rem; text-align: center;">Update Your Account</h3>
+    <div class="row">
+        <div class="form-floating">
+            <input type="text" [(ngModel)]="firstName" class="form-control" id="fname" placeholder="First Name">
+            <label for="fname">Update First Name</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-floating">
+            <input type="text" [(ngModel)]="lastName" class="form-control" id="lname" placeholder="Last Name">
+            <label for="lname">Update Last Name</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-floating">
+            <input type="text" [(ngModel)]="userName" class="form-control" id="uname" placeholder="Username">
+            <label for="uname">Update Username</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="photoBox">
+            <div class="row">
+                <label for="profilePic" style="color: white">Update Profile Picture:</label>
+            </div>
+
+            <div class="row">
+                <input style="color: white; margin-left: 4.5rem;" type="file" (change)="onFileSelected($event)">
+            </div>         
+        </div>
+    </div>
+
+    <div class="row">
+        <button class="btn btn-danger" (click)="updateUser()">Update Account</button>
+    </div>
+
+</div> 

@@ -3,10 +3,6 @@ a{
     height: 3rem;
 }
 
-p{
-    width: 15rem;
-}
-
 img{
     width: 2.3rem;
     height: 2rem;
@@ -19,4 +15,15 @@ img{
 
 img:hover{
     filter: drop-shadow(.2rem .2rem .2rem black);
+}
+
+.centerFoot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about:hover {
+    color: red;
+    cursor: pointer;
 }

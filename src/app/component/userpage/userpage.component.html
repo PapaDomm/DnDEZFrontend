@@ -1,16 +1,23 @@
-<h1>{{getUser().userName}}</h1>
-<h2>{{getUser().firstName}} {{getUser().lastName}}</h2>
-
-@if(getUser().image != undefined){
-    <img [src]="createImgPath(getUser().image.imagePath)">
-}
-
-
-@for (char of userCharacters; track $index) 
-{
-    <app-characterlist [char]="char"></app-characterlist>
-}
-
-<app-userupdateform [userId]="getUser().userId" (outputEmitter)="ngOnInit()"></app-userupdateform>
-
-<button (click)="deleteUser()">Delete Account</button>
+<div class="row">
+    <div class="col-6" style="text-align: center;">
+        <div class="row" style="justify-content: center;">
+            @if(getUser().image != undefined){
+                <img style="width: 15rem;" [src]="createImgPath(getUser().image.imagePath)">
+            }
+            <h2>{{getUser().userName}}</h2>
+            <p>{{getUser().firstName}} {{getUser().lastName}}</p>
+        </div>
+        <div class="row">
+            <app-userupdateform style="margin-left: auto; margin-right: auto;" [userId]="getUser().userId" (outputEmitter)="ngOnInit()"></app-userupdateform>    
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="scrollContainer">
+        @for (char of userCharacters; track $index) 
+        {
+            <app-characterlist [char]="char"></app-characterlist>
+            <br>
+        }
+    </div>
+</div>
+</div>

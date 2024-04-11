@@ -7,9 +7,11 @@
         </div>
         <div class="col-md-8">
             <div class="card-body">
-                <div class="card-title"><a routerLink="/Character/{{char.characterId}}">{{char.name}}</a></div>
-                <div class="card-text">Race- {{char.race}} Class- {{char.class}} Level- {{char.level}}</div>
-                <button (click)="deleteCharacter()">X</button>
+                <div class="card-title"><a style="font-size: 2rem;" routerLink="/Character/{{char.characterId}}">{{char.name}}</a></div>
+                <div class="card-text" style="font-size: 1.25rem;">Level {{char.level}} {{char.race}} {{char.class}}</div>
+                <br><br><br><br><br><br>
+                <hr style="color: red;">
+                <button (click)="deleteCharacter()" class="btn btn-danger">Remove Character</button>
             </div>
         </div>
     </div>
